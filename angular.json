@@ -126,7 +126,7 @@
         "deploy": {
           "builder": "angular-cli-ghpages:deploy",
           "options": {
-            "baseHref": "https://andreaszaschka.github.io/tsv-pleystein-monitor/",
+            "baseHref": "/tsv-pleystein-monitor/",
             "name": "Andreas Zaschka",
             "email": "andreas.zaschka@mz-solutions.de"
           }
