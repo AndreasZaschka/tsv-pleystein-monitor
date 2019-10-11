@@ -3,11 +3,11 @@ import {Router} from '@angular/router';
 import {AppRoutingSetting} from '../app.routing.setting';
 
 @Component({
-  selector: 'app-mannschaft-eins',
-  templateUrl: './mannschaft-eins.component.html',
-  styleUrls: ['./mannschaft-eins.component.scss']
+  selector: 'app-mannschaft-zwei',
+  templateUrl: './mannschaft-zwei.component.html',
+  styleUrls: ['./mannschaft-zwei.component.scss']
 })
-export class MannschaftEinsComponent implements OnInit {
+export class MannschaftZweiComponent implements OnInit {
 
   constructor(
     private router: Router
@@ -15,11 +15,9 @@ export class MannschaftEinsComponent implements OnInit {
   }
 
   ngOnInit() {
-
     setTimeout(() => {
-      this.router.navigate(['2te']);
+      this.router.navigate(['1te']);
     }, AppRoutingSetting.ROUTING_TIME);
-
   }
 
 }

@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {MannschaftEinsComponent} from './mannschaft-eins/mannschaft-eins.component';
-
+import {MannschaftZweiComponent} from './mannschaft-zwei/mannschaft-zwei.component';
 
 const routes: Routes = [
   {
@@ -9,6 +9,9 @@ const routes: Routes = [
   },
   {
     path: '1te', component: MannschaftEinsComponent
+  },
+  {
+    path: '2te', component: MannschaftZweiComponent
   }
 ];
 
@@ -16,4 +19,7 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+
+  public static ROUTING_TIME = 20_000;
+}

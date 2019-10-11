@@ -2,17 +2,26 @@
   <span>TSV Pleystein 1.Mannschaft</span>
 </mat-toolbar>
 
-<div fxLayout="row" fxLayoutGap="24px">
+<div fxLayout="row"
+     fxLayout.lt-xl="column"
+     fxLayoutGap="24px">
 
-  <div fxFlex="50">
+  <div fxFlex="70"
+       fxFlex.lt-lg="100">
     <iframe frameBorder='0'
             src='https://www.fupa.net/fupa/widget.php?p=iframe_widget&typ=team&value_id=691290&div_id=widget_5da0828e40516&start=tabelle&header=0&navi=0'
             style='width:100%;height:600px;'></iframe>
   </div>
 
-  <div fxFlex="50">
+  <div fxFlex="30"
+       fxFlex.lt-lg="100">
+
     <iframe frameBorder='0'
-            src='https://www.fupa.net/fupa/widget.php?p=iframe_widget&typ=team&value_id=691290&div_id=widget_5da084cb29b4a&start=spielplan&header=0&navi=0'
+            src='https://www.fupa.net/fupa/widget.php?p=iframe_widget&typ=team&value_id=691290&div_id=widget_5da09c423f9aa&start=liveticker&header=0&navi=0'
+            style='width:100%;height:180px;'></iframe>
+
+    <iframe frameBorder='0'
+            src='https://www.fupa.net/fupa/widget.php?p=iframe_widget&typ=liga&value_id=74557&div_id=widget_74557&start=spieltag&header=0&navi=0&module_liga=0&start_liga=0&spieltag_liga=0'
             style='width:100%;height:600px;'></iframe>
   </div>
 
