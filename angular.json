@@ -122,8 +122,17 @@
               "devServerTarget": "tsv-pleystein-monitor:serve:production"
             }
           }
+        },
+        "deploy": {
+          "builder": "angular-cli-ghpages:deploy",
+          "options": {
+            "baseHref": "https://andreaszaschka.github.io/tsv-pleystein-monitor/",
+            "name": "Andreas Zaschka",
+            "email": "andreas.zaschka@mz-solutions.de"
+          }
         }
       }
-    }},
+    }
+  },
   "defaultProject": "tsv-pleystein-monitor"
 }
