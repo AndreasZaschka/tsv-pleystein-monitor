@@ -22,19 +22,19 @@
 <body>
 <div class="header">
     <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed tsv-pleystein">
-        <a class="pure-menu-heading" href="">TSV Pleystein | Alle Mannschaften</a>
+        <a class="pure-menu-heading" href="">TSV Pleystein | 2. Mannschaft</a>
     </div>
 </div>
 
 <div class="content">
     <div class="pure-g">
         <div class="pure-u-1 pure-u-md-1-2 l-box">
-            <div id="bfv1571247389496">Laden...</div>
+            <div id="bfv1571248502293">Laden...</div>
             <script>
-                BFVWidget.HTML5.zeigeVereinSpiele("00ES8GNJQK00000BVV0AG08LVUPGND5I", "bfv1571247389496", {
+                BFVWidget.HTML5.zeigeMannschaftKomplett("016PI32HF8000000VV0AG811VUDIC8D7", "bfv1571248502293", {
                     height: "900",
                     width: "100%",
-                    selectedTab: BFVWidget.HTML5.vereinTabs.spiele,
+                    selectedTab: BFVWidget.HTML5.mannschaftTabs.spiele,
                     colorResults: "undefined",
                     colorNav: "undefined",
                     colorClubName: "undefined",
@@ -43,21 +43,25 @@
             </script>
         </div>
         <div class="pure-u-1 pure-u-md-1-2 l-box">
-
-            <iframe frameBorder='0'
-                    src='https://www.fupa.net/fupa/widget.php?p=iframe_widget&typ=team&value_id=691290&div_id=widget_5da758996e97c&start=liveticker&header=0&navi=0'
-                    style='width:100%;height:160px;'></iframe>
-
-            <iframe frameBorder='0'
-                    src='https://www.fupa.net/fupa/widget.php?p=iframe_widget&typ=team&value_id=691407&div_id=widget_5da758c71cfeb&start=liveticker&header=0&navi=0'
-                    style='width:100%;height:160px;'></iframe>
+            <div id="bfv1571248545464">Laden...</div>
+            <script>
+                BFVWidget.HTML5.zeigeMannschaftKomplett("016PI32HF8000000VV0AG811VUDIC8D7", "bfv1571248545464", {
+                    height: "900",
+                    width: "100%",
+                    selectedTab: BFVWidget.HTML5.mannschaftTabs.wettbewerbTabelle,
+                    colorResults: "undefined",
+                    colorNav: "undefined",
+                    colorClubName: "undefined",
+                    backgroundNav: "undefined"
+                });
+            </script>
         </div>
     </div>
 </div>
 
 <script>
     setTimeout(() => {
-        window.location = "https://andreaszaschka.github.io/tsv-pleystein-monitor/mannschaft-1.html"
+        window.location = "https://andreaszaschka.github.io/tsv-pleystein-monitor/"
     }, 30_000);
 </script>
 
