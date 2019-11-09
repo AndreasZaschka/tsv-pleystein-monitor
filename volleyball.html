@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>TsvPleysteinMonitor</title>
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <link href="favicon.ico" rel="icon" type="image/x-icon">
+    <link crossorigin="anonymous" href="https://unpkg.com/purecss@1.0.1/build/pure-min.css"
+          integrity="sha384-oAOxQR6DkCoMliIh8yFnu25d7Eq/PHS21PClpwjOTeU2jRSq11vu66rf90/cZr47" rel="stylesheet">
+    <link href="https://unpkg.com/purecss@1.0.1/build/grids-responsive-min.css" rel="stylesheet">
+    <link href="tsv_pleystein_monitor.css" rel="stylesheet">
+
+</head>
+<body>
+<div class="header">
+    <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed tsv-pleystein">
+        <a class="pure-menu-heading" href="">TSV Pleystein | Volleyball</a>
+    </div>
+</div>
+
+<div class="content">
+    <div class="pure-g">
+        <div class="pure-u-1 pure-u-md-1-2 l-box">
+            <div id="volleyballSpiele">Laden...</div>
+        </div>
+        <div class="pure-u-1 pure-u-md-1-2 l-box">
+            <div id="volleyballTabelle">Laden...</div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    let header = new Headers();
+    header.append('Access-Control-Allow-Origin', '*');
+
+    fetch('https://cors-anywhere.herokuapp.com/http://volleyball.bayern/index.php?id=1149&wid=16881', {
+        mode: 'cors',
+        headers: header
+    })
+        .then(response => response.text())
+        .then(response => {
+            let dom = new DOMParser();
+            let content = dom.parseFromString(response, 'text/html').getElementById('spielwesenmaindiv');
+            let tabellen = content.getElementsByTagName('table');
+
+            this.buildVolleyballSpieleTable(tabellen[1].cloneNode(true));
+            this.buildVolleyballTabelleTable(tabellen[3].cloneNode(true));
+        });
+
+    function buildVolleyballSpieleTable(tabelle) {
+
+        var tbl = document.createElement('table');
+        tbl.classList.add('pure-table');
+        tbl.classList.add('pure-table-horizontal');
+
+        var thead = document.createElement('thead');
+        var tbody = document.createElement('tbody');
+
+        var rows = tabelle.cloneNode(true).querySelectorAll('table tbody tr');
+        for (var i = 0; i < rows.length; i++) {
+
+            if (i === 1) {
+                thead.appendChild(rows[i]);
+            }
+
+            if (i === 2) {
+                var dateOfGames = rows[i];
+                var textOfDateOfGames = dateOfGames.getElementsByTagName('td')[0].innerText;
+
+                var tr = document.createElement('tr');
+                var th = document.createElement('th');
+                th.appendChild(document.createTextNode(textOfDateOfGames));
+                th.setAttribute('colspan', '5');
+                tr.appendChild(th);
+
+                thead.appendChild(tr);
+            }
+        }
+
+        for (var i = 0; i < rows.length; i++) {
+
+            if (i > 2) {
+                tbody.appendChild(rows[i]);
+            }
+        }
+
+        tbl.appendChild(thead);
+        tbl.appendChild(tbody);
+
+        document.getElementById('volleyballSpiele').innerHTML = 'Spiele';
+        document.getElementById('volleyballSpiele').appendChild(tbl);
+    }
+
+    function buildVolleyballTabelleTable(tabelle) {
+        console.log('tabelle', tabelle);
+
+        var tbl = document.createElement('table');
+        tbl.classList.add('pure-table');
+        tbl.classList.add('pure-table-horizontal');
+
+        var thead = document.createElement('thead');
+        var tbody = document.createElement('tbody');
+
+        var rows = tabelle.cloneNode(true).querySelectorAll('table tbody tr');
+        for (var i = 0; i < rows.length; i++) {
+
+            if (i < 2) thead.appendChild(rows[i]);
+        }
+
+        for (var i = 0; i < rows.length; i++) {
+
+            if (i > 1) tbody.appendChild(rows[i]);
+        }
+
+        tbl.appendChild(thead);
+        tbl.appendChild(tbody);
+        document.getElementById('volleyballTabelle').innerHTML = 'Tabelle';
+        document.getElementById('volleyballTabelle').appendChild(tbl);
+    }
+
+    function nextSponsorNumber() {
+        return Math.floor((Math.random() * 2) + 1);
+    }
+
+    setTimeout(() => {
+        var nextSponsorNumber = this.nextSponsorNumber();
+        window.location = `https://andreaszaschka.github.io/tsv-pleystein-monitor/sponsor-${nextSponsorNumber}.html`
+    }, 30_000);
+</script>
+
+</body>
+</html>

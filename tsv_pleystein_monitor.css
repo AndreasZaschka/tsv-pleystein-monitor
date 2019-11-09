@@ -3,6 +3,10 @@
     color: white !important;
 }
 
+.pure-menu-heading {
+    color: white;
+}
+
 .content {
     margin-top: 35px;
 }
@@ -15,4 +19,11 @@
 
 .l-box {
     padding: 1em;
+}
+
+.sponsor-footer {
+    text-align: center;
+    font-family: 'Raleway', sans-serif;
+    font-size: 100%;
+    margin-top: 24px;
 }
