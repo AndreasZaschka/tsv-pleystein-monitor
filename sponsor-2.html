@@ -9,7 +9,24 @@
           integrity="sha384-oAOxQR6DkCoMliIh8yFnu25d7Eq/PHS21PClpwjOTeU2jRSq11vu66rf90/cZr47" rel="stylesheet">
     <link href="https://unpkg.com/purecss@1.0.1/build/grids-responsive-min.css" rel="stylesheet">
     <link href="tsv_pleystein_monitor.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js"></script>
+
+    <style>
+        .ml15 {
+            font-weight: 800;
+            font-size: 3.2em;
+            font-family: 'Raleway', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.5em;
+        }
+
+        .ml15 .word {
+            display: inline-block;
+            line-height: 1em;
+        }
+    </style>
 </head>
 <body>
 <div class="header">
@@ -21,15 +38,22 @@
 <div class="content">
 
     <div class="pure-g">
-        <div class="pure-u-1-3"></div>
-        <div class="pure-u-1-3">
-            <h1 style="text-align: center; font-size: 300%;">GASTWIRTSCHAFT ZUM BACHOFNER</h1>
+        <div class="pure-u-1-5"></div>
+        <div class="pure-u-3-5">
+            <h1 style="text-align: center; font-size: 300%; font-family: 'Raleway', sans-serif;">GASTWIRTSCHAFT ZUM
+                BACHOFNER</h1>
 
-            <div style="text-align: center;">
-                <img src="https://via.placeholder.com/500x100/0000FF/808080?Text=Digital.com">
+            <div class="sponsor-content">
+
+                <h1 class="ml15">
+                    <span class="word">Kegelbahn</span><br>
+                    <span class="word">GASTWIRTSCHAFT</span><br>
+                    <span class="word">BACHOFNER Saal</span>
+                </h1>
+
             </div>
         </div>
-        <div class="pure-u-1-3"></div>
+        <div class="pure-u-1-5"></div>
     </div>
 
     <div class="sponsor-footer">
@@ -39,6 +63,23 @@
 </div>
 
 <script>
+
+    anime.timeline({loop: true})
+        .add({
+            targets: '.ml15 .word',
+            scale: [14, 1],
+            opacity: [0, 1],
+            easing: "easeOutCirc",
+            duration: 800,
+            delay: (el, i) => 800 * i
+        }).add({
+        targets: '.ml15',
+        opacity: 0,
+        duration: 1000,
+        easing: "easeOutExpo",
+        delay: 1000
+    });
+
     setTimeout(() => {
         window.location = "https://andreaszaschka.github.io/tsv-pleystein-monitor"
     }, 5_000);

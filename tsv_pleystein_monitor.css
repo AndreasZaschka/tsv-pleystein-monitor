@@ -21,6 +21,11 @@
     padding: 1em;
 }
 
+.sponsor-content {
+    border-top: 2px solid black;
+    text-align: center;
+}
+
 .sponsor-footer {
     text-align: center;
     font-family: 'Raleway', sans-serif;
