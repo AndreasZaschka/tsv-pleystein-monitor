@@ -57,7 +57,9 @@
 
 <script>
     setTimeout(() => {
-        window.location = "https://andreaszaschka.github.io/tsv-pleystein-monitor/mannschaft-1.html"
+        const urlParams = new URLSearchParams(window.location.search);
+        const url = "https://andreaszaschka.github.io/tsv-pleystein-monitor/mannschaft-1.html"
+        window.location = `${url}${urlParams.toString()}`
     }, 30_000);
 </script>
 

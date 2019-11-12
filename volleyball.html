@@ -20,10 +20,10 @@
 
 <div class="content">
     <div class="pure-g">
-        <div class="pure-u-1 pure-u-md-1-2 l-box">
+        <div class="pure-u-1 pure-u-md-2-5 l-box">
             <div id="volleyballSpiele">Laden...</div>
         </div>
-        <div class="pure-u-1 pure-u-md-1-2 l-box">
+        <div class="pure-u-1 pure-u-md-3-5 l-box">
             <div id="volleyballTabelle">Laden...</div>
         </div>
     </div>
@@ -60,28 +60,30 @@
         var rows = tabelle.cloneNode(true).querySelectorAll('table tbody tr');
         for (var i = 0; i < rows.length; i++) {
 
+            if (i === 0) continue;
+
             if (i === 1) {
                 thead.appendChild(rows[i]);
-            }
+            } else {
 
-            if (i === 2) {
-                var dateOfGames = rows[i];
-                var textOfDateOfGames = dateOfGames.getElementsByTagName('td')[0].innerText;
+                if (rows[i].classList.contains('spielline') === true) {
+                    tbody.appendChild(rows[i]);
+                } else {
+                    var dateOfGames = rows[i];
+                    var textOfDateOfGames = dateOfGames.getElementsByTagName('td')[0].innerText;
 
-                var tr = document.createElement('tr');
-                var th = document.createElement('th');
-                th.appendChild(document.createTextNode(textOfDateOfGames));
-                th.setAttribute('colspan', '5');
-                tr.appendChild(th);
+                    var tr = document.createElement('tr');
+                    tr.style.backgroundColor = '#e0e0e0';
+                    tr.style.verticalAlign = 'left';
+                    tr.style.textAlign = 'left';
+                    var th = document.createElement('th');
+                    th.appendChild(document.createTextNode(textOfDateOfGames));
+                    th.setAttribute('colspan', '5');
+                    tr.appendChild(th);
 
-                thead.appendChild(tr);
-            }
-        }
+                    tbody.appendChild(tr);
+                }
 
-        for (var i = 0; i < rows.length; i++) {
-
-            if (i > 2) {
-                tbody.appendChild(rows[i]);
             }
         }
 
@@ -119,14 +121,15 @@
         document.getElementById('volleyballTabelle').appendChild(tbl);
     }
 
-    function nextSponsorNumber() {
-        return Math.floor((Math.random() * 2) + 1);
-    }
-
     setTimeout(() => {
-        var nextSponsorNumber = this.nextSponsorNumber();
-        window.location = `https://andreaszaschka.github.io/tsv-pleystein-monitor/sponsor-${nextSponsorNumber}.html`
+        const nextSponsorId = getSponsorId();
+        const url = `https://andreaszaschka.github.io/tsv-pleystein-monitor/sponsor-${nextSponsorId}.html`;
+        window.location = `${url}?sponsorId=${encodeURIComponent(nextSponsorId)}`
     }, 30_000);
+</script>
+
+<script src="tsv_pleystein_monitor.js">
+
 </script>
 
 </body>

@@ -32,3 +32,11 @@
     font-size: 100%;
     margin-top: 24px;
 }
+
+.pure-table {
+    width: 100%;
+}
+
+.pure-table td {
+    padding: 0.3em 0.3em;
+}

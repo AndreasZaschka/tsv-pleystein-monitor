@@ -49,7 +49,9 @@
 
 <script>
     setTimeout(() => {
-        window.location = "https://andreaszaschka.github.io/tsv-pleystein-monitor"
+        const urlParams = new URLSearchParams(window.location.search);
+        const url = "https://andreaszaschka.github.io/tsv-pleystein-monitor";
+        window.location = `${url}${urlParams.toString()}`
     }, 5_000);
 </script>
 
