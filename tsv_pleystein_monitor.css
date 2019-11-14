@@ -3,18 +3,8 @@
     color: white !important;
 }
 
-.pure-menu-heading {
+.navbar-light .navbar-brand {
     color: white;
-}
-
-.content {
-    margin-top: 35px;
-}
-
-.pure-g > div {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
 }
 
 .l-box {
@@ -31,12 +21,4 @@
     font-family: 'Raleway', sans-serif;
     font-size: 100%;
     margin-top: 24px;
-}
-
-.pure-table {
-    width: 100%;
-}
-
-.pure-table td {
-    padding: 0.3em 0.3em;
 }
