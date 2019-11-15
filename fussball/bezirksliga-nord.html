@@ -4,12 +4,12 @@
     <meta charset="utf-8">
     <title>TSV Pleystein Monitor</title>
     <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
-    <link href="favicon.ico" rel="icon" type="image/x-icon">
+    <link href="../favicon.ico" rel="icon" type="image/x-icon">
     <link crossorigin="anonymous"
           href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
           rel="stylesheet">
-    <link href="tsv_pleystein_monitor.css" rel="stylesheet">
+    <link href="../tsv_pleystein_monitor.css" rel="stylesheet">
 
     <script type='text/javascript'>
         (function () {
@@ -23,18 +23,18 @@
 <body>
 
 <nav class="navbar navbar-light bg-light tsv-pleystein">
-    <span class="navbar-brand mb-0 h1">TSV Pleystein | Fussball | Alle Mannschaften</span>
+    <span class="navbar-brand mb-0 h1">TSV Pleystein | Fussball | Bezirksliga Oberpfalz Nord</span>
 </nav>
 
 <div class="l-box">
     <div class="row">
         <div class="col col-md-6">
-            <div id="bfv1571247389496">Laden...</div>
+            <div id="bfv1573803977464">Laden...</div>
             <script>
-                BFVWidget.HTML5.zeigeVereinSpiele("00ES8GNJQK00000BVV0AG08LVUPGND5I", "bfv1571247389496", {
+                BFVWidget.HTML5.zeigeWettbewerb("0279HGQ0U4000004VS5489B4VTN21JC6-G", "bfv1573803977464", {
                     height: "900",
                     width: "100%",
-                    selectedTab: BFVWidget.HTML5.vereinTabs.spiele,
+                    selectedTab: BFVWidget.HTML5.wettbewerbTabs.ergebnisse,
                     colorResults: "undefined",
                     colorNav: "undefined",
                     colorClubName: "undefined",
@@ -43,27 +43,26 @@
             </script>
         </div>
         <div class="col col-md-6">
-
-            <iframe frameBorder='0'
-                    src='https://www.fupa.net/fupa/widget.php?p=iframe_widget&typ=team&value_id=691290&div_id=widget_5da758996e97c&start=liveticker&header=0&navi=0'
-                    style='width:100%;height:160px;'></iframe>
-
-            <iframe frameBorder='0'
-                    src='https://www.fupa.net/fupa/widget.php?p=iframe_widget&typ=team&value_id=691407&div_id=widget_5da758c71cfeb&start=liveticker&header=0&navi=0'
-                    style='width:100%;height:160px;'></iframe>
+            <div id="bfv1573804024728">Laden...</div>
+            <script>
+                BFVWidget.HTML5.zeigeWettbewerb("0279HGQ0U4000004VS5489B4VTN21JC6-G", "bfv1573804024728", {
+                    height: "900",
+                    width: "100%",
+                    selectedTab: BFVWidget.HTML5.wettbewerbTabs.tabelle,
+                    colorResults: "undefined",
+                    colorNav: "undefined",
+                    colorClubName: "undefined",
+                    backgroundNav: "undefined"
+                });
+            </script>
         </div>
     </div>
 </div>
 
 <script>
-
-    let url = "https://andreaszaschka.github.io/tsv-pleystein-monitor/fussball/mannschaft-1.html";
-    if (showAllLeagues()) {
-        url = "https://andreaszaschka.github.io/tsv-pleystein-monitor/fussball/landesliga-mitte.html";
-    }
-
     setTimeout(() => {
         const urlParams = new URLSearchParams(window.location.search);
+        const url = "https://andreaszaschka.github.io/tsv-pleystein-monitor/fussball/kreisliga-nord.html";
         window.location = `${url}?${urlParams.toString()}`
     }, 30_000);
 </script>

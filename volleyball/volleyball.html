@@ -4,12 +4,12 @@
     <meta charset="utf-8">
     <title>TSV Pleystein Monitor</title>
     <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
-    <link href="favicon.ico" rel="icon" type="image/x-icon">
+    <link href="../favicon.ico" rel="icon" type="image/x-icon">
     <link crossorigin="anonymous"
           href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
           rel="stylesheet">
-    <link href="tsv_pleystein_monitor.css" rel="stylesheet">
+    <link href="../tsv_pleystein_monitor.css" rel="stylesheet">
 
     <style>
         .spielcell a {
@@ -167,12 +167,12 @@
 
     setTimeout(() => {
         const nextSponsorId = getSponsorId();
-        const url = `https://andreaszaschka.github.io/tsv-pleystein-monitor/sponsor-${nextSponsorId}.html`;
+        const url = `https://andreaszaschka.github.io/tsv-pleystein-monitor/sponsoren/sponsor-${nextSponsorId}.html`;
         window.location = `${url}?sponsorId=${encodeURIComponent(nextSponsorId)}`
     }, 30_000);
 </script>
 
-<script src="tsv_pleystein_monitor.js">
+<script src="../tsv_pleystein_monitor.js">
 
 </script>
 

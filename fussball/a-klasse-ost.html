@@ -4,12 +4,12 @@
     <meta charset="utf-8">
     <title>TSV Pleystein Monitor</title>
     <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
-    <link href="favicon.ico" rel="icon" type="image/x-icon">
+    <link href="../favicon.ico" rel="icon" type="image/x-icon">
     <link crossorigin="anonymous"
           href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
           rel="stylesheet">
-    <link href="tsv_pleystein_monitor.css" rel="stylesheet">
+    <link href="../tsv_pleystein_monitor.css" rel="stylesheet">
 
     <script type='text/javascript'>
         (function () {
@@ -23,18 +23,18 @@
 <body>
 
 <nav class="navbar navbar-light bg-light tsv-pleystein">
-    <span class="navbar-brand mb-0 h1">TSV Pleystein | Fussball | 1. Mannschaft</span>
+    <span class="navbar-brand mb-0 h1">TSV Pleystein | Fussball | A-Klasse AM/WEN Ost</span>
 </nav>
 
 <div class="l-box">
     <div class="row">
         <div class="col col-md-6">
-            <div id="bfv1571168529238">Laden...</div>
+            <div id="bfv1573806376635">Laden...</div>
             <script>
-                BFVWidget.HTML5.zeigeMannschaftKomplett("016PM01I5K000000VV0AG80NVUT1FLRU", "bfv1571168529238", {
+                BFVWidget.HTML5.zeigeWettbewerb("027D1P0MO0000006VS5489B4VTN21JC6-G", "bfv1573806376635", {
                     height: "900",
                     width: "100%",
-                    selectedTab: BFVWidget.HTML5.mannschaftTabs.spiele,
+                    selectedTab: BFVWidget.HTML5.wettbewerbTabs.ergebnisse,
                     colorResults: "undefined",
                     colorNav: "undefined",
                     colorClubName: "undefined",
@@ -43,12 +43,12 @@
             </script>
         </div>
         <div class="col col-md-6">
-            <div id="bfv1571168564053">Laden...</div>
+            <div id="bfv1573806445361">Laden...</div>
             <script>
-                BFVWidget.HTML5.zeigeMannschaftKomplett("016PM01I5K000000VV0AG80NVUT1FLRU", "bfv1571168564053", {
+                BFVWidget.HTML5.zeigeWettbewerb("027D1P0MO0000006VS5489B4VTN21JC6-G", "bfv1573806445361", {
                     height: "900",
                     width: "100%",
-                    selectedTab: BFVWidget.HTML5.mannschaftTabs.wettbewerbTabelle,
+                    selectedTab: BFVWidget.HTML5.wettbewerbTabs.tabelle,
                     colorResults: "undefined",
                     colorNav: "undefined",
                     colorClubName: "undefined",
@@ -62,7 +62,7 @@
 <script>
     setTimeout(() => {
         const urlParams = new URLSearchParams(window.location.search);
-        const url = "https://andreaszaschka.github.io/tsv-pleystein-monitor/mannschaft-2.html";
+        const url = "https://andreaszaschka.github.io/tsv-pleystein-monitor/fussball/mannschaft-2.html";
         window.location = `${url}?${urlParams.toString()}`
     }, 30_000);
 </script>
