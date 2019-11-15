@@ -21,6 +21,10 @@
             color: #000000;
             text-decoration: none;
         }
+
+        .volleyballLeague {
+            font-size: small;
+        }
     </style>
 
 </head>
@@ -34,28 +38,31 @@
     <div class="row">
         <div class="col col-md-6">
             <div class="row">
-                <img class="col-auto" height="88px" src="http://www.tsv-pleystein.de/s/misc/logo.jpg?t=1573598328"
-                     width="60px">
+                <img class="col-auto" height="70px" src="http://www.tsv-pleystein.de/s/misc/logo.jpg?t=1573598328">
                 <div class="col row">
-                    <h4 class="col-auto">Red Sharks Pleystein</h4>
-                    <div class="w-100 d-none d-md-block"></div>
-                    <span class="col-auto text-muted" id="volleyballSpieleGender"></span>
-                    <div class="w-100 d-none d-md-block"></div>
-                    <span class="col-auto text-muted" id="volleyballSpieleLeague">Laden...</span>
+
+                    <div class="col-12">
+                        <h4 class="col-auto">Red Sharks Pleystein</h4>
+                    </div>
+                    <div class="col-12">
+                        <span class="col-auto text-muted volleyballLeague" id="volleyballSpieleLeague">Laden...</span>
+                    </div>
+
                 </div>
             </div>
             <div id="volleyballSpiele"></div>
         </div>
         <div class="col col-md-6">
             <div class="row">
-                <img class="col-auto" height="88px" src="http://www.tsv-pleystein.de/s/misc/logo.jpg?t=1573598328"
-                     width="60px">
+                <img class="col-auto" height="70px" src="http://www.tsv-pleystein.de/s/misc/logo.jpg?t=1573598328">
                 <div class="col row">
-                    <h4 class="col-auto">Red Sharks Pleystein</h4>
-                    <div class="w-100 d-none d-md-block"></div>
-                    <span class="col-auto text-muted" id="volleyballTabelleGender"></span>
-                    <div class="w-100 d-none d-md-block"></div>
-                    <span class="col-auto text-muted" id="volleyballTabelleLeague">Laden...</span>
+
+                    <div class="col-12">
+                        <h4 class="col-auto">Red Sharks Pleystein</h4>
+                    </div>
+                    <div class="col-12">
+                        <span class="col-auto text-muted volleyballLeague" id="volleyballTabelleLeague">Laden...</span>
+                    </div>
                 </div>
             </div>
             <div id="volleyballTabelle"></div>
@@ -78,11 +85,9 @@
             let page = dom.parseFromString(response, 'text/html');
 
             let title = page.getElementsByClassName('header');
-            document.getElementById('volleyballSpieleGender').innerHTML = title[0].children[0].innerHTML;
-            document.getElementById('volleyballTabelleGender').innerHTML = title[0].children[0].innerHTML;
 
-            document.getElementById('volleyballSpieleLeague').innerHTML = title[0].children[1].innerHTML;
-            document.getElementById('volleyballTabelleLeague').innerHTML = title[0].children[1].innerHTML;
+            document.getElementById('volleyballSpieleLeague').innerHTML = title[0].children[0].innerHTML.replace('\\', '|') + ' | ' + title[0].children[1].innerHTML;
+            document.getElementById('volleyballTabelleLeague').innerHTML = title[0].children[0].innerHTML.replace('\\', '|') + ' | ' + title[0].children[1].innerHTML;
 
             let content = page.getElementById('spielwesenmaindiv');
             let tabellen = content.getElementsByTagName('table');
@@ -165,11 +170,11 @@
         document.getElementById('volleyballTabelle').appendChild(tbl);
     }
 
-    setTimeout(() => {
+    /*setTimeout(() => {
         const nextSponsorId = getSponsorId();
         const url = `https://andreaszaschka.github.io/tsv-pleystein-monitor/sponsoren/sponsor-${nextSponsorId}.html`;
         window.location = `${url}?sponsorId=${encodeURIComponent(nextSponsorId)}`
-    }, 30_000);
+    }, 30_000);*/
 </script>
 
 <script src="../tsv_pleystein_monitor.js">
