@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>TSV Pleystein Monitor</title>
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+    <link href="/favicon.ico" rel="icon" type="image/x-icon">
+    <link crossorigin="anonymous"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          rel="stylesheet">
+    <link href="/tsv_pleystein_monitor.css" rel="stylesheet">
+
+    <style>
+        .spielcell a {
+            color: #000000;
+            text-decoration: none;
+        }
+
+        .tabellecell a {
+            color: #000000;
+            text-decoration: none;
+        }
+
+        .volleyballLeague {
+            font-size: small;
+        }
+    </style>
+
+</head>
+<body>
+
+<nav class="navbar navbar-light bg-light tsv-pleystein">
+    <span class="navbar-brand mb-0 h1">TSV Pleystein | Volleyball</span>
+</nav>
+
+<div class="l-box">
+    <div class="row">
+        <div class="col col-md-6">
+            <div class="row">
+                <img class="col-auto" height="70px" src="http://www.tsv-pleystein.de/s/misc/logo.jpg?t=1573598328">
+                <div class="col row">
+
+                    <div class="col-12">
+                        <h4 class="col-auto">Red Sharks Pleystein</h4>
+                    </div>
+                    <div class="col-12">
+                        <span class="col-auto text-muted volleyballLeague" id="volleyballSpieleLeague">Laden...</span>
+                    </div>
+
+                </div>
+            </div>
+            <div id="volleyballSpiele"></div>
+        </div>
+        <div class="col col-md-6">
+            <div class="row">
+                <img class="col-auto" height="70px" src="http://www.tsv-pleystein.de/s/misc/logo.jpg?t=1573598328">
+                <div class="col row">
+
+                    <div class="col-12">
+                        <h4 class="col-auto">Red Sharks Pleystein</h4>
+                    </div>
+                    <div class="col-12">
+                        <span class="col-auto text-muted volleyballLeague" id="volleyballTabelleLeague">Laden...</span>
+                    </div>
+                </div>
+            </div>
+            <div id="volleyballTabelle"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    let header = new Headers();
+    header.append('Access-Control-Allow-Origin', '*');
+
+    fetch('https://tsv-pleystein-cors-proxy.herokuapp.com/http://volleyball.bayern/index.php?id=1149&wid=16881', {
+        mode: 'cors',
+        headers: header
+    })
+        .then(response => response.text())
+        .then(response => {
+            let dom = new DOMParser();
+            let page = dom.parseFromString(response, 'text/html');
+
+            let title = page.getElementsByClassName('header');
+
+            document.getElementById('volleyballSpieleLeague').innerHTML = title[0].children[0].innerHTML.replace('\\', '|') + ' | ' + title[0].children[1].innerHTML;
+            document.getElementById('volleyballTabelleLeague').innerHTML = title[0].children[0].innerHTML.replace('\\', '|') + ' | ' + title[0].children[1].innerHTML;
+
+            let content = page.getElementById('spielwesenmaindiv');
+            let tabellen = content.getElementsByTagName('table');
+
+            this.buildVolleyballSpieleTable(tabellen[1].cloneNode(true));
+            this.buildVolleyballTabelleTable(tabellen[3].cloneNode(true));
+        });
+
+    function buildVolleyballSpieleTable(tabelle) {
+
+        var tbl = document.createElement('table');
+        tbl.classList.add('table');
+        tbl.classList.add('table-sm');
+        tbl.classList.add('table-striped');
+        tbl.classList.add('table-bordered');
+
+        var thead = document.createElement('thead');
+        var tbody = document.createElement('tbody');
+
+        var rows = tabelle.cloneNode(true).querySelectorAll('table tbody tr');
+        for (var i = 0; i < rows.length; i++) {
+
+            if (i === 0) continue;
+
+            if (i === 1) {
+                thead.appendChild(rows[i]);
+            } else {
+
+                if (rows[i].classList.contains('spielline') === true) {
+                    tbody.appendChild(rows[i]);
+                } else {
+                    var dateOfGames = rows[i];
+                    var textOfDateOfGames = dateOfGames.getElementsByTagName('td')[0].innerText;
+
+                    var tr = document.createElement('tr');
+                    tr.classList.add('table-active');
+                    tr.style.verticalAlign = 'left';
+                    tr.style.textAlign = 'left';
+                    var th = document.createElement('th');
+                    th.appendChild(document.createTextNode(textOfDateOfGames));
+                    th.setAttribute('colspan', '5');
+                    tr.appendChild(th);
+
+                    tbody.appendChild(tr);
+                }
+
+            }
+        }
+
+        tbl.appendChild(thead);
+        tbl.appendChild(tbody);
+
+        document.getElementById('volleyballSpiele').appendChild(tbl);
+    }
+
+    function buildVolleyballTabelleTable(tabelle) {
+
+        var tbl = document.createElement('table');
+        tbl.classList.add('table');
+        tbl.classList.add('table-sm');
+        tbl.classList.add('table-striped');
+        tbl.classList.add('table-bordered');
+
+        var thead = document.createElement('thead');
+        var tbody = document.createElement('tbody');
+
+        var rows = tabelle.cloneNode(true).querySelectorAll('table tbody tr');
+        for (var i = 0; i < rows.length; i++) {
+
+            if (i < 2) thead.appendChild(rows[i]);
+        }
+
+        for (var i = 0; i < rows.length; i++) {
+
+            if (i > 1) tbody.appendChild(rows[i]);
+        }
+
+        tbl.appendChild(thead);
+        tbl.appendChild(tbody);
+        document.getElementById('volleyballTabelle').appendChild(tbl);
+    }
+
+    setTimeout(() => {
+        const nextSponsorId = getSponsorId();
+        const url = `https://andreaszaschka.github.io/tsv-pleystein-monitor/sponsoren/sponsor-${nextSponsorId}.html`;
+        window.location = `${url}?sponsorId=${encodeURIComponent(nextSponsorId)}`
+    }, 30_000);
+</script>
+
+<script src="tsv_pleystein_monitor.js">
+
+</script>
+
+</body>
+</html>
