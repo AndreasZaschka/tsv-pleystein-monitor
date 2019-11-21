@@ -38,7 +38,7 @@
     <div class="row">
         <div class="col col-md-6">
             <div class="row">
-                <img class="col-auto" height="70px" src="http://www.tsv-pleystein.de/s/misc/logo.jpg?t=1573598328">
+                <img class="col-auto" height="60px" src="http://www.tsv-pleystein.de/s/misc/logo.jpg?t=1573598328">
                 <div class="col row">
 
                     <div class="col-12">
@@ -54,7 +54,7 @@
         </div>
         <div class="col col-md-6">
             <div class="row">
-                <img class="col-auto" height="70px" src="http://www.tsv-pleystein.de/s/misc/logo.jpg?t=1573598328">
+                <img class="col-auto" height="60px" src="http://www.tsv-pleystein.de/s/misc/logo.jpg?t=1573598328">
                 <div class="col row">
 
                     <div class="col-12">
@@ -75,7 +75,10 @@
     let header = new Headers();
     header.append('Access-Control-Allow-Origin', '*');
 
-    fetch('https://tsv-pleystein-cors-proxy.herokuapp.com/http://volleyball.bayern/index.php?id=1149&wid=16881', {
+    const corsProxy = 'https://tsv-pleystein-cors-proxy.herokuapp.com/';
+    const page = 'https://volleyball.bayern/ergebnisse/erwachsene/oberpfalz?tx_bvv_ausgabe%5Baction%5D=zeigeliga&tx_bvv_ausgabe%5BbezirkMannschaftZuordnung%5D=1000&tx_bvv_ausgabe%5BbezirkZuordnung%5D=70&tx_bvv_ausgabe%5Bwettbewerbid%5D=16881&cHash=8f3d1fa7520dab4236385aa673cd76f2';
+
+    fetch(corsProxy.concat(page), {
         mode: 'cors',
         headers: header
     })
@@ -84,90 +87,38 @@
             let dom = new DOMParser();
             let page = dom.parseFromString(response, 'text/html');
 
-            let title = page.getElementsByClassName('header');
+            let titleDiv = page.getElementsByClassName('bvv_zeigeligabox');
+            let title = titleDiv[0].children[0];
 
-            document.getElementById('volleyballSpieleLeague').innerHTML = title[0].children[0].innerHTML.replace('\\', '|') + ' | ' + title[0].children[1].innerHTML;
-            document.getElementById('volleyballTabelleLeague').innerHTML = title[0].children[0].innerHTML.replace('\\', '|') + ' | ' + title[0].children[1].innerHTML;
+            document.getElementById('volleyballSpieleLeague').innerHTML = title.innerHTML;
+            document.getElementById('volleyballTabelleLeague').innerHTML = title.innerHTML;
 
-            let content = page.getElementById('spielwesenmaindiv');
-            let tabellen = content.getElementsByTagName('table');
-
-            this.buildVolleyballSpieleTable(tabellen[1].cloneNode(true));
-            this.buildVolleyballTabelleTable(tabellen[3].cloneNode(true));
+            this.buildVolleyballSpieleTable(page.getElementById('bvvligaaktuellespiele'));
+            this.buildVolleyballTabelleTable(page.getElementById('bvvligatabelle'));
         });
 
-    function buildVolleyballSpieleTable(tabelle) {
+    function buildVolleyballSpieleTable(div) {
 
-        var tbl = document.createElement('table');
-        tbl.classList.add('table');
-        tbl.classList.add('table-sm');
-        tbl.classList.add('table-striped');
-        tbl.classList.add('table-bordered');
+        let table = div.children[1].children[0];
+        table.classList.remove(...table.classList);
+        table.classList.add('table');
+        table.classList.add('table-sm');
+        table.classList.add('table-striped');
+        table.classList.add('table-bordered');
 
-        var thead = document.createElement('thead');
-        var tbody = document.createElement('tbody');
-
-        var rows = tabelle.cloneNode(true).querySelectorAll('table tbody tr');
-        for (var i = 0; i < rows.length; i++) {
-
-            if (i === 0) continue;
-
-            if (i === 1) {
-                thead.appendChild(rows[i]);
-            } else {
-
-                if (rows[i].classList.contains('spielline') === true) {
-                    tbody.appendChild(rows[i]);
-                } else {
-                    var dateOfGames = rows[i];
-                    var textOfDateOfGames = dateOfGames.getElementsByTagName('td')[0].innerText;
-
-                    var tr = document.createElement('tr');
-                    tr.classList.add('table-active');
-                    tr.style.verticalAlign = 'left';
-                    tr.style.textAlign = 'left';
-                    var th = document.createElement('th');
-                    th.appendChild(document.createTextNode(textOfDateOfGames));
-                    th.setAttribute('colspan', '5');
-                    tr.appendChild(th);
-
-                    tbody.appendChild(tr);
-                }
-
-            }
-        }
-
-        tbl.appendChild(thead);
-        tbl.appendChild(tbody);
-
-        document.getElementById('volleyballSpiele').appendChild(tbl);
+        document.getElementById('volleyballSpiele').appendChild(table);
     }
 
-    function buildVolleyballTabelleTable(tabelle) {
+    function buildVolleyballTabelleTable(div) {
 
-        var tbl = document.createElement('table');
-        tbl.classList.add('table');
-        tbl.classList.add('table-sm');
-        tbl.classList.add('table-striped');
-        tbl.classList.add('table-bordered');
+        let table = div.children[1].children[0];
+        table.classList.remove(...table.classList);
+        table.classList.add('table');
+        table.classList.add('table-sm');
+        table.classList.add('table-striped');
+        table.classList.add('table-bordered');
 
-        var thead = document.createElement('thead');
-        var tbody = document.createElement('tbody');
-
-        var rows = tabelle.cloneNode(true).querySelectorAll('table tbody tr');
-        for (var i = 0; i < rows.length; i++) {
-
-            if (i < 2) thead.appendChild(rows[i]);
-        }
-
-        for (var i = 0; i < rows.length; i++) {
-
-            if (i > 1) tbody.appendChild(rows[i]);
-        }
-
-        tbl.appendChild(thead);
-        tbl.appendChild(tbody);
-        document.getElementById('volleyballTabelle').appendChild(tbl);
+        document.getElementById('volleyballTabelle').appendChild(table);
     }
 
     setTimeout(() => {
@@ -177,7 +128,7 @@
     }, 30_000);
 </script>
 
-<script src="tsv_pleystein_monitor.js">
+<script src="../tsv_pleystein_monitor.js">
 
 </script>
 
