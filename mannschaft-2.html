@@ -13,9 +13,9 @@
 
     <script type='text/javascript'>
         (function () {
-            var useSSL = 'https:' == document.location.protocol;
-            var src = (useSSL ? 'https:' : 'http:') + '//widget-prod.bfv.de/widget/widgetresource/widgetjs';
-            document.write('<scr' + 'ipt src="' + src + '"></scr' + 'ipt>');
+            const useSSL = 'https:' === document.location.protocol;
+            const src = (useSSL ? 'https:' : 'http:') + '//widget-prod.bfv.de/widget/widgetresource/widgetjs';
+            document.write('<scr' + 'ipt type=\'text/javascript\' src="' + src + '"></scr' + 'ipt>');
         })()
     </script>
 
