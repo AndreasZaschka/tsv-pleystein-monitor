@@ -12,7 +12,7 @@ function getNextSponsorParam(currentSponsorId) {
 
     var _currentSponsorId = parseInt(currentSponsorId);
 
-    if (_currentSponsorId >= 5) {
+    if (_currentSponsorId >= 7) {
         return '1';
     } else {
         return (_currentSponsorId + 1).toString();
