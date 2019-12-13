@@ -9,10 +9,13 @@ function getSponsorId() {
 }
 
 function getNextSponsorParam(currentSponsorId) {
-    if (currentSponsorId === '1') {
-        return '2';
-    } else {
+
+    var _currentSponsorId = parseInt(currentSponsorId);
+
+    if (_currentSponsorId >= 5) {
         return '1';
+    } else {
+        return (_currentSponsorId + 1).toString();
     }
 }
 

@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="#ffffff" name="theme-color">
+    <meta content="#b91d47" name="msapplication-TileColor">
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+
+    <title>TSV Pleystein Monitor</title>
+
+    <link href="/favicon.ico" rel="icon" type="image/x-icon">
+    <link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180">
+    <link href="/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png">
+    <link href="/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png">
+    <link crossorigin="anonymous"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          rel="stylesheet">
+    <link href="../tsv_pleystein_monitor.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+</head>
+<body>
+
+<nav class="navbar navbar-light bg-light tsv-pleystein">
+    <span class="navbar-brand mb-0 h1">TSV Pleystein | Sponsoren</span>
+</nav>
+
+<div class="l-box">
+
+    <div class="row">
+        <div class="col-3 col-md-2"></div>
+        <div class="col-6 col-md-8">
+
+            <h1 style="text-align: center; font-size: 300%; font-family: 'Raleway', sans-serif;">REWE GMBH</h1>
+
+            <div class="sponsor-content mt-2 pt-2">
+                <img src="../sponsoren/sponsor_4_logo.png"
+                     width="450px">
+
+            </div>
+
+        </div>
+        <div class="col-3 col-md-2"></div>
+    </div>
+
+    <div class="sponsor-footer">
+        <span>REWE Supermarkt, Waidhauser Straße 33, 92648 Vohenstrauß</span>
+    </div>
+
+</div>
+
+<script>
+    setTimeout(() => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const url = "https://andreaszaschka.github.io/tsv-pleystein-monitor";
+        window.location = `${url}?${urlParams.toString()}`
+    }, 10_000);
+</script>
+
+</body>
+</html>
