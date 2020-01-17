@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>TSV Pleystein Monitor</title>
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+    <link href="../favicon.ico" rel="icon" type="image/x-icon">
+    <link crossorigin="anonymous"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          rel="stylesheet">
+    <link href="../tsv_pleystein_monitor.css" rel="stylesheet">
+
+</head>
+<body>
+
+<nav class="navbar navbar-light bg-light tsv-pleystein">
+    <span class="navbar-brand mb-0 h1">TSV Pleystein | Ski</span>
+</nav>
+
+<div class="container">
+
+    <div class="row justify-content-center">
+        <img class="img-fluid mx-auto d-block"
+             src="stadt_vereinsmeisterschaft_2019.jpeg"
+             style="max-height: 80vh;">
+    </div>
+
+    <div class="row">
+        <h3 class="mx-auto d-block">
+            Nächstes Rennen: Oberpfalz Cup am 25.01.2020, Fahrenberg
+        </h3>
+    </div>
+</div>
+
+<script src="../tsv_pleystein_monitor.js">
+</script>
+
+<script>
+    setTimeout(() => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const url = "https://andreaszaschka.github.io/tsv-pleystein-monitor/volleyball/volleyball.html";
+        window.location = `${url}?${urlParams.toString()}`
+    }, 30_000);
+</script>
+
+</body>
+</html>
