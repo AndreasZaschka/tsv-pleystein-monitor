@@ -11,6 +11,14 @@
           rel="stylesheet">
     <link href="../tsv_pleystein_monitor.css" rel="stylesheet">
 
+    <style>
+        .image_custom {
+            height: 300px;
+            width: 100%;
+            object-fit: cover;
+        }
+    </style>
+
 </head>
 <body>
 
@@ -22,14 +30,26 @@
 
     <div class="row m-3">
         <h3 class="mx-auto d-block">
-            Nächstes Rennen: Oberpfalz Cup am 25.01.2020, Fahrenberg
+            Techniktraining, Arber
         </h3>
     </div>
 
-    <div class="row justify-content-center">
-        <img class="img-fluid mx-auto d-block"
-             src="stadt_vereinsmeisterschaft_2019.jpeg"
-             style="max-height: 80vh;">
+    <div class="row m-3">
+        <div class="col">
+            <img class="image_custom" src="techniktraining_1.jpeg">
+        </div>
+        <div class="col">
+            <img class="image_custom" src="techniktraining_2.jpeg">
+        </div>
+    </div>
+
+    <div class="row m-3">
+        <div class="col">
+            <img class="image_custom" src="techniktraining_3.jpeg">
+        </div>
+        <div class="col">
+            <img class="image_custom" src="techniktraining_4.jpeg" style="object-position: 100% 0;">
+        </div>
     </div>
 </div>
 
@@ -39,7 +59,7 @@
 <script>
     setTimeout(() => {
         const urlParams = new URLSearchParams(window.location.search);
-        const url = "https://andreaszaschka.github.io/tsv-pleystein-monitor/ski/ski-2.html";
+        const url = "https://andreaszaschka.github.io/tsv-pleystein-monitor/volleyball/volleyball.html";
         window.location = `${url}?${urlParams.toString()}`
     }, 30_000);
 </script>
