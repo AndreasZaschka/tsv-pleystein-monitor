@@ -74,60 +74,10 @@
 </script>
 
 <script>
-
-    let header = new Headers();
-    header.append('Access-Control-Allow-Origin', '*');
-
-    const corsProxy = 'https://tsv-pleystein-cors-proxy.herokuapp.com/';
-    const page = 'https://volleyball.bayern/ergebnisse/erwachsene/oberpfalz?tx_bvv_ausgabe%5Baction%5D=zeigeliga&tx_bvv_ausgabe%5BbezirkMannschaftZuordnung%5D=1000&tx_bvv_ausgabe%5BbezirkZuordnung%5D=70&tx_bvv_ausgabe%5Bwettbewerbid%5D=16881&cHash=8f3d1fa7520dab4236385aa673cd76f2';
-
-    fetch(corsProxy.concat(page), {
-        mode: 'cors',
-        headers: header
-    })
-        .then(response => response.text())
-        .then(response => {
-            let dom = new DOMParser();
-            let page = dom.parseFromString(response, 'text/html');
-
-            let titleDiv = page.getElementsByClassName('bvv_zeigeligabox');
-            let title = titleDiv[0].children[0];
-
-            document.getElementById('volleyballSpieleLeague').innerHTML = title.innerHTML;
-            document.getElementById('volleyballTabelleLeague').innerHTML = title.innerHTML;
-
-            this.buildVolleyballSpieleTable(page.getElementById('bvvligaaktuellespiele'));
-            this.buildVolleyballTabelleTable(page.getElementById('bvvligatabelle'));
-        });
-
-    function buildVolleyballSpieleTable(div) {
-
-        let table = div.children[1].children[0];
-        table.classList.remove(...table.classList);
-        table.classList.add('table');
-        table.classList.add('table-sm');
-        table.classList.add('table-striped');
-        table.classList.add('table-bordered');
-
-        document.getElementById('volleyballSpiele').appendChild(table);
-    }
-
-    function buildVolleyballTabelleTable(div) {
-
-        let table = div.children[1].children[0];
-        table.classList.remove(...table.classList);
-        table.classList.add('table');
-        table.classList.add('table-sm');
-        table.classList.add('table-striped');
-        table.classList.add('table-bordered');
-
-        document.getElementById('volleyballTabelle').appendChild(table);
-    }
-
     setTimeout(() => {
-        const nextSponsorId = getSponsorId();
-        const url = `https://andreaszaschka.github.io/tsv-pleystein-monitor/sponsoren/sponsor-${nextSponsorId}.html`;
-        window.location = `${url}?sponsorId=${encodeURIComponent(nextSponsorId)}`
+        const urlParams = new URLSearchParams(window.location.search);
+        const url = "https://andreaszaschka.github.io/tsv-pleystein-monitor/volleyball/volleyball-2.html";
+        window.location = `${url}?${urlParams.toString()}`
     }, 30_000);
 </script>
 
