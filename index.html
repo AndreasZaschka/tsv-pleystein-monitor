@@ -52,6 +52,9 @@
 
 <script>
     let url = "https://andreaszaschka.github.io/tsv-pleystein-monitor/fussball/mannschaft-1.html";
+    if (showAllLeagues()) {
+        url = "https://andreaszaschka.github.io/tsv-pleystein-monitor/fussball/landesliga-mitte.html";
+    }
 
     setTimeout(() => {
         const urlParams = new URLSearchParams(window.location.search);
