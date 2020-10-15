@@ -12,10 +12,18 @@
     <link href="../tsv_pleystein_monitor.css" rel="stylesheet">
 
     <style>
-        .image_custom {
-            height: 300px;
-            width: 100%;
-            object-fit: cover;
+        .spielcell a {
+            color: #000000;
+            text-decoration: none;
+        }
+
+        .tabellecell a {
+            color: #000000;
+            text-decoration: none;
+        }
+
+        .volleyballLeague {
+            font-size: small;
         }
     </style>
 
@@ -23,28 +31,41 @@
 <body>
 
 <nav class="navbar navbar-light bg-light tsv-pleystein">
-    <span class="navbar-brand mb-0 h1">TSV Pleystein | Volleyball</span>
+    <span class="navbar-brand mb-0 h1">TSV Pleystein | Volleyball | 2.Mannschaft</span>
 </nav>
 
-<div class="container">
+<div class="l-box">
+    <div class="row">
+        <div class="col col-md-6">
+            <div class="row">
+                <img class="col-auto" height="60px" src="http://www.tsv-pleystein.de/s/misc/logo.jpg?t=1573598328">
+                <div class="col row">
 
-    <div class="row m-3"></div>
+                    <div class="col-12">
+                        <h4 class="col-auto">Red Sharks Pleystein</h4>
+                    </div>
+                    <div class="col-12">
+                        <span class="col-auto text-muted volleyballLeague" id="volleyballSpieleLeague">Laden...</span>
+                    </div>
 
-    <div class="row m-3">
-        <div class="col">
-            <img class="image_custom" src="volleyball_team_2.jpeg">
+                </div>
+            </div>
+            <div id="volleyballSpiele"></div>
         </div>
-        <div class="col">
-            <img class="image_custom" src="volleyball_team_3.jpeg">
-        </div>
-    </div>
+        <div class="col col-md-6">
+            <div class="row">
+                <img class="col-auto" height="60px" src="http://www.tsv-pleystein.de/s/misc/logo.jpg?t=1573598328">
+                <div class="col row">
 
-    <div class="row m-3">
-        <div class="col">
-            <img class="image_custom" src="volleyball_team_1.jpeg">
-        </div>
-        <div class="col">
-            <img class="image_custom" src="volleyball_4.jpeg">
+                    <div class="col-12">
+                        <h4 class="col-auto">Red Sharks Pleystein</h4>
+                    </div>
+                    <div class="col-12">
+                        <span class="col-auto text-muted volleyballLeague" id="volleyballTabelleLeague">Laden...</span>
+                    </div>
+                </div>
+            </div>
+            <div id="volleyballTabelle"></div>
         </div>
     </div>
 </div>
@@ -53,11 +74,80 @@
 </script>
 
 <script>
+    let header = new Headers();
+    header.append('Access-Control-Allow-Origin', '*');
+
+    const corsProxy = 'https://tsv-pleystein-cors-proxy.herokuapp.com/';
+    const page = 'https://volleyball.bayern/ergebnisse/erwachsene/oberpfalz?tx_bvv_ausgabe%5Baction%5D=zeigeliga&tx_bvv_ausgabe%5BbezirkMannschaftZuordnung%5D=1000&tx_bvv_ausgabe%5BbezirkZuordnung%5D=70&tx_bvv_ausgabe%5Bwettbewerbid%5D=20300&cHash=45636e564f3bd60c4f553697a79751af';
+
+    const threshold = 3600000 // 1 Stunde
+    const dateTime = sessionStorage.getItem('volleyball-2-request-datetime');
+
+    if (dateTime === null) {
+        fetchData();
+    } else if ((parseInt(dateTime, 10) + threshold) > new Date().getTime()) {
+        renderResponse(sessionStorage.getItem('volleyball-2-request'));
+    } else {
+        fetchData();
+    }
+
+    function fetchData() {
+        fetch(corsProxy.concat(page), {
+            mode: 'cors',
+            headers: header
+        })
+            .then(response => response.text())
+            .then(response => {
+                sessionStorage.setItem('volleyball-2-request', response);
+                sessionStorage.setItem('volleyball-2-request-datetime', new Date().getTime().toString())
+                return response;
+            })
+            .then(response => renderResponse(response));
+    }
+
+    function renderResponse(response) {
+        let dom = new DOMParser();
+        let page = dom.parseFromString(response, 'text/html');
+
+        let titleDiv = page.getElementsByClassName('bvv_zeigeligabox');
+        let title = titleDiv[0].children[0];
+
+        document.getElementById('volleyballSpieleLeague').innerHTML = title.innerHTML;
+        document.getElementById('volleyballTabelleLeague').innerHTML = title.innerHTML;
+
+        this.buildVolleyballSpieleTable(page.getElementById('bvvligaaktuellespiele'));
+        this.buildVolleyballTabelleTable(page.getElementById('bvvligatabelle'));
+    }
+
+    function buildVolleyballSpieleTable(div) {
+
+        let table = div.children[1].children[0];
+        table.classList.remove(...table.classList);
+        table.classList.add('table');
+        table.classList.add('table-sm');
+        table.classList.add('table-striped');
+        table.classList.add('table-bordered');
+
+        document.getElementById('volleyballSpiele').appendChild(table);
+    }
+
+    function buildVolleyballTabelleTable(div) {
+
+        let table = div.children[1].children[0];
+        table.classList.remove(...table.classList);
+        table.classList.add('table');
+        table.classList.add('table-sm');
+        table.classList.add('table-striped');
+        table.classList.add('table-bordered');
+
+        document.getElementById('volleyballTabelle').appendChild(table);
+    }
+
     setTimeout(() => {
         const nextSponsorId = getSponsorId();
         const url = `https://andreaszaschka.github.io/tsv-pleystein-monitor/sponsoren/sponsor-${nextSponsorId}.html`;
         window.location = `${url}?sponsorId=${encodeURIComponent(nextSponsorId)}`
-    }, 10_000);
+    }, 30_000);
 </script>
 
 </body>
