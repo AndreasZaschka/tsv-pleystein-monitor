@@ -31,122 +31,74 @@
 <body>
 
 <nav class="navbar navbar-light bg-light tsv-pleystein">
-    <span class="navbar-brand mb-0 h1">TSV Pleystein | Volleyball | 1.Mannschaft</span>
+    <span class="navbar-brand mb-0 h1">TSV Pleystein | Volleyball</span>
 </nav>
 
 <div class="l-box">
     <div class="row">
         <div class="col col-md-6">
             <div class="row">
-                <img class="col-auto" height="60px" src="http://www.tsv-pleystein.de/s/misc/logo.jpg?t=1573598328">
+                <img class="col-auto" height="60px" src="/TSV-Wappen.png">
                 <div class="col row">
 
                     <div class="col-12">
-                        <h4 class="col-auto">Red Sharks Pleystein</h4>
+                        <h4 class="col-auto">Red Sharks Pleystein | 1. Mannschaft</h4>
                     </div>
                     <div class="col-12">
-                        <span class="col-auto text-muted volleyballLeague" id="volleyballSpieleLeague">Laden...</span>
+                        <span class="col-auto text-muted">Bezirksklasse Nord Oberpfalz Frauen
+                        </span>
                     </div>
 
                 </div>
             </div>
-            <div id="volleyballSpiele"></div>
+            <div class="row">
+                <div class="col row">
+                    <ul>
+                        <li>ASV Schwend</li>
+                        <li>TSV Pleystein</li>
+                        <li>SV Altenstadt</li>
+                        <li>VC/TUS HIrschau</li>
+                        <li>TB Weiden II</li>
+                        <li>TSV Konnersreuth</li>
+                        <li>SV Hahnbach III</li>
+                    </ul>
+                </div>
+            </div>
         </div>
         <div class="col col-md-6">
             <div class="row">
-                <img class="col-auto" height="60px" src="http://www.tsv-pleystein.de/s/misc/logo.jpg?t=1573598328">
+                <img class="col-auto" height="60px" src="/TSV-Wappen.png">
                 <div class="col row">
 
                     <div class="col-12">
-                        <h4 class="col-auto">Red Sharks Pleystein</h4>
+                        <h4 class="col-auto">Red Sharks Pleystein | 2. Mannschaft</h4>
                     </div>
                     <div class="col-12">
-                        <span class="col-auto text-muted volleyballLeague" id="volleyballTabelleLeague">Laden...</span>
+                        <span class="col-auto text-muted">Kreisklasse Nord Oberpfalz Frauen</span>
                     </div>
                 </div>
             </div>
-            <div id="volleyballTabelle"></div>
+            <div class="row">
+                <div class="col row">
+                    <ul>
+                        <li>SV TUS/DJK Grafenwöhr II</li>
+                        <li>TUS Schnaittenbach II</li>
+                        <li>VG Sulzbach-Rosenberg II</li>
+                        <li>TSV Pleystein II</li>
+                        <li>ASV Schwend II</li>
+                        <li>VC Amberg III</li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
-<script src="../tsv_pleystein_monitor.js">
-</script>
-
 <script>
-    let header = new Headers();
-    header.append('Access-Control-Allow-Origin', '*');
-
-    const corsProxy = 'https://tsv-pleystein-cors-proxy.herokuapp.com/';
-    const page = 'https://volleyball.bayern/ergebnisse/erwachsene/oberpfalz?tx_bvv_ausgabe%5Baction%5D=zeigeliga&tx_bvv_ausgabe%5BbezirkMannschaftZuordnung%5D=1000&tx_bvv_ausgabe%5BbezirkZuordnung%5D=70&tx_bvv_ausgabe%5Bwettbewerbid%5D=20302&cHash=5b9a92c84bc220e9b93f15e65db8e27e';
-
-    const threshold = 3600000 // 1 Stunde
-    const dateTime = sessionStorage.getItem('volleyball-1-request-datetime');
-
-    if (dateTime === null) {
-        fetchData();
-    } else if ((parseInt(dateTime, 10) + threshold) > new Date().getTime()) {
-        renderResponse(sessionStorage.getItem('volleyball-1-request'));
-    } else {
-        fetchData();
-    }
-
-    function fetchData() {
-        fetch(corsProxy.concat(page), {
-            mode: 'cors',
-            headers: header
-        })
-            .then(response => response.text())
-            .then(response => {
-                sessionStorage.setItem('volleyball-1-request', response);
-                sessionStorage.setItem('volleyball-1-request-datetime', new Date().getTime().toString())
-                return response;
-            })
-            .then(response => renderResponse(response));
-    }
-
-    function renderResponse(response) {
-        let dom = new DOMParser();
-        let page = dom.parseFromString(response, 'text/html');
-
-        let titleDiv = page.getElementsByClassName('bvv_zeigeligabox');
-        let title = titleDiv[0].children[0];
-
-        document.getElementById('volleyballSpieleLeague').innerHTML = title.innerHTML;
-        document.getElementById('volleyballTabelleLeague').innerHTML = title.innerHTML;
-
-        this.buildVolleyballSpieleTable(page.getElementById('bvvligaaktuellespiele'));
-        this.buildVolleyballTabelleTable(page.getElementById('bvvligatabelle'));
-    }
-
-    function buildVolleyballSpieleTable(div) {
-
-        let table = div.children[1].children[0];
-        table.classList.remove(...table.classList);
-        table.classList.add('table');
-        table.classList.add('table-sm');
-        table.classList.add('table-striped');
-        table.classList.add('table-bordered');
-
-        document.getElementById('volleyballSpiele').appendChild(table);
-    }
-
-    function buildVolleyballTabelleTable(div) {
-
-        let table = div.children[1].children[0];
-        table.classList.remove(...table.classList);
-        table.classList.add('table');
-        table.classList.add('table-sm');
-        table.classList.add('table-striped');
-        table.classList.add('table-bordered');
-
-        document.getElementById('volleyballTabelle').appendChild(table);
-    }
-
     setTimeout(() => {
-        const urlParams = new URLSearchParams(window.location.search);
-        const url = "https://andreaszaschka.github.io/tsv-pleystein-monitor/volleyball/volleyball-2.html";
-        window.location = `${url}?${urlParams.toString()}`
+        const nextSponsorId = getSponsorId();
+        const url = `https://andreaszaschka.github.io/tsv-pleystein-monitor/sponsoren/sponsor-${nextSponsorId}.html`;
+        window.location = `${url}?sponsorId=${encodeURIComponent(nextSponsorId)}`
     }, 30_000);
 </script>
 
