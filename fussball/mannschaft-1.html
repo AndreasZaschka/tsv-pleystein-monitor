@@ -61,12 +61,7 @@
 
 <script>
     setTimeout(() => {
-
-        let url = "https://andreaszaschka.github.io/tsv-pleystein-monitor/fussball/mannschaft-2.html";
-        if (showAllLeagues()) {
-            url = "https://andreaszaschka.github.io/tsv-pleystein-monitor/fussball/a-klasse-ost.html";
-        }
-
+        const url = "https://andreaszaschka.github.io/tsv-pleystein-monitor/fussball/mannschaft-2.html";
         const urlParams = new URLSearchParams(window.location.search);
         window.location = `${url}?${urlParams.toString()}`
     }, 30_000);
