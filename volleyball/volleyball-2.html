@@ -12,6 +12,10 @@
     <link href="../tsv_pleystein_monitor.css" rel="stylesheet">
 
     <style>
+        a {
+            color: #000000;
+        }
+
         .spielcell a {
             color: #000000;
             text-decoration: none;
@@ -23,7 +27,7 @@
         }
 
         .volleyballLeague {
-            font-size: small;
+            font-size: 90%;
         }
     </style>
 
@@ -38,7 +42,7 @@
     <div class="row">
         <div class="col col-md-6">
             <div class="row">
-                <img class="col-auto" height="60px" src="http://www.tsv-pleystein.de/s/misc/logo.jpg?t=1573598328">
+                <img alt="TSV Pleystein Logo" class="col-auto" height="60px" src="/tsv-pleystein-monitor/TSV-Wappen.png">
                 <div class="col row">
 
                     <div class="col-12">
@@ -50,11 +54,13 @@
 
                 </div>
             </div>
-            <div id="volleyballSpiele"></div>
+            <div class="row py-3">
+                <div class="col-12" id="volleyballSpiele"></div>
+            </div>
         </div>
         <div class="col col-md-6">
             <div class="row">
-                <img class="col-auto" height="60px" src="http://www.tsv-pleystein.de/s/misc/logo.jpg?t=1573598328">
+                <img alt="TSV Pleystein Logo" class="col-auto" height="60px" src="/tsv-pleystein-monitor/TSV-Wappen.png">
                 <div class="col row">
 
                     <div class="col-12">
@@ -65,7 +71,9 @@
                     </div>
                 </div>
             </div>
-            <div id="volleyballTabelle"></div>
+            <div class="row py-3">
+                <div class="col-12" id="volleyballTabelle"></div>
+            </div>
         </div>
     </div>
 </div>
@@ -78,9 +86,9 @@
     header.append('Access-Control-Allow-Origin', '*');
 
     const corsProxy = 'https://tsv-pleystein-cors-proxy.herokuapp.com/';
-    const page = 'https://volleyball.bayern/ergebnisse/erwachsene/oberpfalz?tx_bvv_ausgabe%5Baction%5D=zeigeliga&tx_bvv_ausgabe%5BbezirkMannschaftZuordnung%5D=1000&tx_bvv_ausgabe%5BbezirkZuordnung%5D=70&tx_bvv_ausgabe%5Bwettbewerbid%5D=20300&cHash=45636e564f3bd60c4f553697a79751af';
+    const page = 'https://volleyball.bayern/ergebnisse/erwachsene/oberpfalz?tx_bvv_ausgabe%5Baction%5D=zeigeliga&tx_bvv_ausgabe%5BbezirkMannschaftZuordnung%5D=1000&tx_bvv_ausgabe%5BbezirkZuordnung%5D=70&tx_bvv_ausgabe%5Bwettbewerbid%5D=20964&cHash=5a8df52941e64bace5acf3a3461e0c10';
 
-    const threshold = 3600000 // 1 Stunde
+    const threshold = 3_600_000 // 1 Stunde
     const dateTime = sessionStorage.getItem('volleyball-2-request-datetime');
 
     if (dateTime === null) {
