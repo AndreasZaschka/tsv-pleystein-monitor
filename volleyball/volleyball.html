@@ -30,6 +30,10 @@
         .volleyballLeague {
             font-size: 90%;
         }
+
+        .highlight-row {
+            font-weight: bolder;
+        }
     </style>
 
 </head>
@@ -125,6 +129,18 @@
 
         this.buildVolleyballSpieleTable(page.getElementById('bvvligaaktuellespiele'));
         this.buildVolleyballTabelleTable(page.getElementById('bvvligatabelle'));
+
+        for (const tr of document.getElementsByTagName('tr')) {
+            let isOwnRow = false;
+            for (const rowItem of tr.getElementsByTagName('td')) {
+                if (rowItem.innerText.includes('TSV Pleystein')) {
+                    isOwnRow = true;
+                }
+            }
+            if (isOwnRow === true) {
+                tr.classList.add('highlight-row');
+            }
+        }
     }
 
     function buildVolleyballSpieleTable(div) {
