@@ -11,20 +11,6 @@
           rel="stylesheet">
     <link href="../tsv_pleystein_monitor.css" rel="stylesheet">
 
-    <style>
-        body {
-            background-color: white;
-        }
-    </style>
-
-    <script type='text/javascript'>
-        (function () {
-            const useSSL = 'https:' === document.location.protocol;
-            const src = (useSSL ? 'https:' : 'http:') + '//widget-prod.bfv.de/widget/widgetresource/widgetjs';
-            document.write('<scr' + 'ipt type=\'text/javascript\' src="' + src + '"></scr' + 'ipt>');
-        })()
-    </script>
-
 </head>
 <body>
 
@@ -33,22 +19,25 @@
 </nav>
 
 <div class="l-box">
+
     <div class="row">
-        <div class="mx-auto" style="width: 95vw; height: 90vh;">
-            <video width="100%" height="100%" autoplay muted>
-                <source src="/tsv-pleystein-monitor/fussball/TSV_Pleystein_Real_Madrid_Fondation_2.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
+
+        <div class="col">
+            <img src="../fussball/TSV_Pleystein_Real_Madrid_Fondation_Offer.jpeg" width="100%">
+        </div>
+
+        <div class="col">
+            <img src="../fussball/TSV_Pleystein_Real_Madrid_Fondation_Offer_extension.jpeg" width="100%">
         </div>
     </div>
 </div>
 
 <script>
     setTimeout(() => {
-        const url = "https://andreaszaschka.github.io/tsv-pleystein-monitor/fussball/news.html";
+        const url = "https://andreaszaschka.github.io/tsv-pleystein-monitor/fussball/mannschaft-1.html";
         const urlParams = new URLSearchParams(window.location.search);
         window.location = `${url}?${urlParams.toString()}`
-    }, 33_000);
+    }, 15_000);
 </script>
 
 <script src="../tsv_pleystein_monitor.js"></script>
