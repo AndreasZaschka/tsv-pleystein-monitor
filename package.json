@@ -1,0 +1,21 @@
+{
+  "name": "tsv-pleystein-monitor",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "build": "static-site --source 'src'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AndreasZaschka/tsv-pleystein-monitor.git"
+  },
+  "author": "Andreas Zaschka",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AndreasZaschka/tsv-pleystein-monitor/issues"
+  },
+  "homepage": "https://github.com/AndreasZaschka/tsv-pleystein-monitor#readme",
+  "dependencies": {
+    "static-site": "^1.3.5"
+  }
+}
