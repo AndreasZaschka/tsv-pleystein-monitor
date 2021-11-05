@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>TSV Pleystein Monitor</title>
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+    <link href="favicon.ico" rel="icon" type="image/x-icon">
+    <link crossorigin="anonymous"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          rel="stylesheet">
+    <link href="tsv_pleystein_monitor.css" rel="stylesheet">
+    <script src="https://widget-prod.bfv.de/widget/widgetresource/widgetjs" type='text/javascript'></script>
+
+</head>
+<body>
+
+<nav class="navbar navbar-light bg-light tsv-pleystein">
+    <span class="navbar-brand mb-0 h1">TSV Pleystein | Fussball | Alle Mannschaften</span>
+</nav>
+
+<div class="l-box">
+    <div class="row">
+        <div class="col col-md-6">
+            <div id="bfv1600435717043">Laden...</div>
+            <script>
+                BFVWidget.HTML5.zeigeVereinSpiele("00ES8GNJQK00000BVV0AG08LVUPGND5I", "bfv1600435717043", {
+                    height: "900",
+                    width: "100%",
+                    selectedTab: BFVWidget.HTML5.vereinTabs.spiele,
+                    colorResults: "undefined",
+                    colorNav: "undefined",
+                    colorClubName: "undefined",
+                    backgroundNav: "undefined"
+                });
+            </script>
+        </div>
+        <div class="col col-md-6">
+            <div id="bfv1602783117945">Laden...</div>
+            <script>
+                BFVWidget.HTML5.zeigeVereinSpiele("00ES8GNJQK00000BVV0AG08LVUPGND5I", "bfv1602783117945", {
+                    height: "900",
+                    width: "100%",
+                    selectedTab: BFVWidget.HTML5.vereinTabs.manschaften,
+                    colorResults: "undefined",
+                    colorNav: "undefined",
+                    colorClubName: "undefined",
+                    backgroundNav: "undefined"
+                });
+            </script>
+        </div>
+    </div>
+</div>
+
+<script src="tsv_pleystein_monitor.js"></script>
+
+<script>
+    let url = "https://andreaszaschka.github.io/tsv-pleystein-monitor/fussball/index.html";
+    if (showAllLeagues()) {
+        url = "https://andreaszaschka.github.io/tsv-pleystein-monitor/fussball/landesliga-mitte.html";
+    }
+
+    setTimeout(() => {
+        const urlParams = new URLSearchParams(window.location.search);
+        window.location = `${url}?${urlParams.toString()}`
+    }, 30_000);
+</script>
+
+</body>
+</html>

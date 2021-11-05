@@ -1,0 +1,46 @@
+.tsv-pleystein {
+    background: red !important;
+    color: white !important;
+}
+
+.navbar-light .navbar-brand {
+    color: white;
+}
+
+.l-box {
+    padding: 1em;
+}
+
+.sponsor-content {
+    border-top: 2px solid black;
+    text-align: center;
+    padding: 24px;
+}
+
+.sponsor-footer {
+    text-align: center;
+    font-family: 'Raleway', sans-serif;
+    font-size: 175%;
+    margin-top: 24px;
+}
+
+.tsv-fupa-table table tbody {
+    font-size: initial;
+}
+
+.tsv-fupa-table table tr th {
+    padding-top: 24px;
+}
+
+.tsv-fupa-table table a {
+    font-size: initial !important;
+    color: black !important;
+}
+
+.tsv-fupa-table table tr > td {
+    padding-right: 24px;
+}
+
+.tsv-fupa-table table td.fusszeile {
+    display: none;
+}
