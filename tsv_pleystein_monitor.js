@@ -29,7 +29,7 @@ function showAllLeagues() {
         const periodStart = new Date();
         periodStart.setHours(16, 0, 0);
         const periodEnd = new Date();
-        periodEnd.setHours(20, 0, 0);
+        periodEnd.setHours(19, 0, 0);
 
         if (now >= periodStart && now < periodEnd) {
             console.log("its game day :D");
@@ -43,7 +43,7 @@ function showAllLeagues() {
         const periodStart = new Date();
         periodStart.setHours(19, 0, 0);
         const periodEnd = new Date();
-        periodEnd.setHours(22, 0, 0);
+        periodEnd.setHours(20, 0, 0);
 
         if (now >= periodStart && now < periodEnd) {
             console.log("its training :D");
