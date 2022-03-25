@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>TSV Pleystein Monitor</title>
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+    <link href="../favicon.ico" rel="icon" type="image/x-icon">
+    <link crossorigin="anonymous"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          rel="stylesheet">
+    <link href="../tsv_pleystein_monitor.css" rel="stylesheet">
+
+    <style>
+
+        a {
+            color: #000000;
+        }
+
+        .spielcell a {
+            color: #000000;
+            text-decoration: none;
+        }
+
+        .tabellecell a {
+            color: #000000;
+            text-decoration: none;
+        }
+
+        .volleyballLeague {
+            font-size: 90%;
+        }
+
+        .highlight-row {
+            font-weight: bolder;
+        }
+    </style>
+
+</head>
+<body>
+
+<nav class="navbar navbar-light bg-light tsv-pleystein">
+    <span class="navbar-brand mb-0 h1">TSV Pleystein | Skaterhockey</span>
+</nav>
+
+<div class="l-box">
+    <div class="row">
+        <div class="col col-md-6">
+            <div class="row">
+                <img alt="Pleystein Piranhas Logo" class="col-auto" height="60px" src="http://www.briv-online.de/img/club/x/35.png">
+                <div class="col row">
+
+                    <div class="col-12">
+                        <h4 class="col-auto">Pleystein Piranhas</h4>
+                    </div>
+                    <div class="col-12">
+                        <span class="col-auto text-muted volleyballLeague" id="volleyballSpieleLeague">Laden...</span>
+                    </div>
+
+                </div>
+            </div>
+            <div class="row py-3">
+                <div class="col-12" id="volleyballSpiele"></div>
+            </div>
+        </div>
+        <div class="col col-md-6">
+            <div class="row">
+                <img alt="Pleystein Piranhas Logo" class="col-auto" height="60px" src="http://www.briv-online.de/img/club/x/35.png">
+                <div class="col row">
+
+                    <div class="col-12">
+                        <h4 class="col-auto">Pleystein Piranhas</h4>
+                    </div>
+                    <div class="col-12">
+                        <span class="col-auto text-muted volleyballLeague" id="volleyballTabelleLeague">Laden...</span>
+                    </div>
+                </div>
+            </div>
+            <div class="row py-3">
+                <div class="col-12" id="volleyballTabelle"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="../tsv_pleystein_monitor.js"></script>
+
+<script>
+    let header = new Headers();
+    header.append('Access-Control-Allow-Origin', '*');
+
+    const corsProxy = 'https://tsv-pleystein-cors-proxy.herokuapp.com/';
+    const page1 = 'http://www.briv-online.de/liga/366/spielplan/';
+    const page2 = 'http://www.briv-online.de/liga/366/tabelle/';
+
+    const threshold = 3_600_000 // 1 Stunde
+    const dateTime = sessionStorage.getItem('skaterhockey-1-request-datetime');
+
+    if (dateTime === null) {
+        fetchData();
+    } else if ((parseInt(dateTime, 10) + threshold) > new Date().getTime()) {
+        renderResponse(sessionStorage.getItem('skaterhockey-1-request'));
+        renderTableResponse(sessionStorage.getItem('skaterhockey-1-request-table'))
+    } else {
+        fetchData();
+    }
+
+    function fetchData() {
+        fetch(corsProxy.concat(page1), {
+            mode: 'cors',
+            headers: header
+        })
+            .then(response => response.text())
+            .then(response => {
+                sessionStorage.setItem('skaterhockey-1-request', response);
+                sessionStorage.setItem('skaterhockey-1-request-datetime', new Date().getTime().toString())
+                return response;
+            })
+            .then(response => renderResponse(response));
+
+        fetch(corsProxy.concat(page2), {
+            mode: 'cors',
+            headers: header
+        })
+            .then(response => response.text())
+            .then(response => {
+                sessionStorage.setItem('skaterhockey-1-request-table', response);
+            })
+            .then(response => renderTableResponse(response));
+    }
+
+    function renderTableResponse(response) {
+        let dom = new DOMParser();
+        let page = dom.parseFromString(response, 'text/html');
+
+        const table = page.getElementsByClassName('tabelle')[0];
+        table.classList.remove(...table.classList);
+        table.classList.add('table');
+        table.classList.add('table-sm');
+        table.classList.add('table-striped');
+        table.classList.add('table-bordered');
+
+        document.getElementById('volleyballTabelle').appendChild(table);
+
+        for (const tr of document.getElementsByTagName('tr')) {
+            let isOwnRow = false;
+            for (const rowItem of tr.getElementsByTagName('td')) {
+                if (rowItem.innerText.includes('Pleystein')) {
+                    isOwnRow = true;
+                }
+            }
+            if (isOwnRow === true) {
+                tr.classList.add('highlight-row');
+            }
+        }
+    }
+
+    function renderResponse(response) {
+        let dom = new DOMParser();
+        let page = dom.parseFromString(response, 'text/html');
+
+        let titleDiv = page.getElementById('content');
+        let title = titleDiv.getElementsByTagName('h1')[0];
+
+        document.getElementById('volleyballSpieleLeague').innerHTML = title.innerHTML;
+        document.getElementById('volleyballTabelleLeague').innerHTML = title.innerHTML;
+
+        this.buildVolleyballSpieleTable(page.getElementsByClassName('spielplan')[0]);
+
+        for (const tr of document.getElementsByTagName('tr')) {
+            let isOwnRow = false;
+            for (const rowItem of tr.getElementsByTagName('td')) {
+                if (rowItem.innerText.includes('Pleystein')) {
+                    isOwnRow = true;
+                }
+            }
+            if (isOwnRow === true) {
+                tr.classList.add('highlight-row');
+            }
+        }
+    }
+
+    function buildVolleyballSpieleTable(tableElement) {
+
+        const table = document.createElement('table');
+        const tHead = table.createTHead();
+        table.appendChild(tHead);
+
+        const tBody = table.createTBody();
+        table.appendChild(tBody);
+
+        table.classList.add('table');
+        table.classList.add('table-sm');
+        table.classList.add('table-striped');
+        table.classList.add('table-bordered');
+
+        createSpieleTableHeader(tHead);
+
+        const rows = tableElement.children[0].children.length;
+
+        for (let i = 0;  i < rows; i += 2) {
+            const tr = document.createElement('tr');
+            const div = tableElement.children[0].children[i];
+            const divDate = tableElement.children[0].children[i + 1];
+
+            const tdHeadDatum = document.createElement('td');
+            tdHeadDatum.innerText = divDate.getElementsByClassName('spieldaten')[0].innerHTML.replaceAll('&nbsp;', ' ');
+            tr.appendChild(tdHeadDatum);
+
+            const tdHeadNumber = document.createElement('td');
+            tdHeadNumber.innerText = (i / 2) + 1;
+            tr.appendChild(tdHeadNumber);
+
+            const tdHeadTeamA = document.createElement('td');
+            tdHeadTeamA.innerText = div.getElementsByClassName('teamname')[0].getElementsByTagName('a')[0].innerHTML;
+            tr.appendChild(tdHeadTeamA);
+
+            const tdHeadTeamB = document.createElement('td');
+            tdHeadTeamB.innerText = div.getElementsByClassName('teamname')[1].getElementsByTagName('a')[0].innerHTML;
+            tr.appendChild(tdHeadTeamB);
+
+            const tdHeadResult = document.createElement('td');
+            tdHeadResult.innerText = div.getElementsByClassName('result')[0].getElementsByTagName('a')[0].innerHTML.replaceAll('&nbsp;', ' ');
+            tr.appendChild(tdHeadResult);
+
+            tBody.appendChild(tr);
+        }
+
+        document.getElementById('volleyballSpiele').appendChild(table);
+    }
+
+    function createSpieleTableHeader(tHead) {
+        const trHead = document.createElement('tr');
+
+        const tdHeadDatum = document.createElement('td');
+        tdHeadDatum.innerText = 'Datum';
+        trHead.appendChild(tdHeadDatum);
+
+        const tdHeadNumber = document.createElement('td');
+        tdHeadNumber.innerText = 'Nr';
+        trHead.appendChild(tdHeadNumber);
+
+        const tdHeadTeamA = document.createElement('td');
+        tdHeadTeamA.innerText = 'Team A';
+        trHead.appendChild(tdHeadTeamA);
+
+        const tdHeadTeamB = document.createElement('td');
+        tdHeadTeamB.innerText = 'Team B';
+        trHead.appendChild(tdHeadTeamB);
+
+        const tdHeadResult = document.createElement('td');
+        tdHeadResult.innerText = 'Ergebnis';
+        trHead.appendChild(tdHeadResult);
+        tHead.appendChild(trHead);
+    }
+
+    setTimeout(() => {
+        const nextSponsorId = getSponsorId();
+        const url = `https://andreaszaschka.github.io/tsv-pleystein-monitor/sponsoren/sponsor-${nextSponsorId}.html`;
+        window.location = `${url}?sponsorId=${encodeURIComponent(nextSponsorId)}`
+    }, 30_000);
+</script>
+
+
+</body>
+</html>
