@@ -134,7 +134,6 @@
         let page = dom.parseFromString(response, 'text/html');
 
         const table = page.getElementsByClassName('tabelle')[0];
-        table.classList.remove(...table.classList);
         table.classList.add('table');
         table.classList.add('table-sm');
         table.classList.add('table-striped');
