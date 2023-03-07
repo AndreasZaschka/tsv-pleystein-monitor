@@ -87,11 +87,10 @@
 
 <script>
     let header = new Headers();
-    header.append('Access-Control-Allow-Origin', '*');
 
-    const corsProxy = 'https://tsv-pleystein-cors-proxy.herokuapp.com/';
-    const page1 = 'http://www.briv-online.de/liga/366/spielplan/';
-    const page2 = 'http://www.briv-online.de/liga/366/tabelle/';
+    const corsProxy = 'https://api.allorigins.win/get?url=';
+    const page1 = 'http://www.briv-online.de/liga/392/spielplan/';
+    const page2 = 'http://www.briv-online.de/liga/392/tabelle/';
 
     const threshold = 3_600_000 // 1 Stunde
     const dateTime = sessionStorage.getItem('skaterhockey-1-request-datetime');
@@ -106,27 +105,27 @@
     }
 
     function fetchData() {
-        fetch(corsProxy.concat(page1), {
+        fetch(`${corsProxy}${encodeURIComponent(page1)}`, {
             mode: 'cors',
             headers: header
         })
-            .then(response => response.text())
+            .then(response => response.json())
             .then(response => {
-                sessionStorage.setItem('skaterhockey-1-request', response);
+                sessionStorage.setItem('skaterhockey-1-request', response.contents);
                 sessionStorage.setItem('skaterhockey-1-request-datetime', new Date().getTime().toString())
-                return response;
+                return response.contents;
             })
             .then(response => renderResponse(response));
 
-        fetch(corsProxy.concat(page2), {
+        fetch(`${corsProxy}${encodeURIComponent(page2)}`, {
             mode: 'cors',
             headers: header
         })
-            .then(response => response.text())
+            .then(response => response.json())
             .then(response => {
-                sessionStorage.setItem('skaterhockey-1-request-table', response);
+                sessionStorage.setItem('skaterhockey-1-request-table', response.contents);
             })
-            .then(response => renderTableResponse(response));
+            .then(response => renderTableResponse(response.contents));
     }
 
     function renderTableResponse(response) {
@@ -144,6 +143,11 @@
         for (const tr of document.getElementsByTagName('tr')) {
             let isOwnRow = false;
             for (const rowItem of tr.getElementsByTagName('td')) {
+
+                if (rowItem.className.includes('teamname')) {
+                    rowItem.innerHTML = rowItem.outerText;
+                }
+
                 if (rowItem.innerText.includes('Pleystein')) {
                     isOwnRow = true;
                 }
@@ -204,6 +208,9 @@
 
             const tdHeadDatum = document.createElement('td');
             tdHeadDatum.innerText = divDate.getElementsByClassName('spieldaten')[0].innerHTML.replaceAll('&nbsp;', ' ');
+            const headDatum = tdHeadDatum.innerHTML.split('<br>').slice(1, 2).join();
+            tdHeadDatum.innerHTML = null;
+            tdHeadDatum.innerHTML = headDatum;
             tr.appendChild(tdHeadDatum);
 
             const tdHeadNumber = document.createElement('td');
@@ -219,7 +226,9 @@
             tr.appendChild(tdHeadTeamB);
 
             const tdHeadResult = document.createElement('td');
-            tdHeadResult.innerText = div.getElementsByClassName('result')[0].getElementsByTagName('a')[0].innerHTML.replaceAll('&nbsp;', ' ');
+            tdHeadResult.innerHTML = div.getElementsByClassName('result')[0]
+                .getElementsByTagName('a')[0]
+                .innerHTML;
             tr.appendChild(tdHeadResult);
 
             tBody.appendChild(tr);

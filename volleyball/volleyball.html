@@ -87,10 +87,9 @@
 
 <script>
     let header = new Headers();
-    header.append('Access-Control-Allow-Origin', '*');
 
-    const corsProxy = 'https://tsv-pleystein-cors-proxy.herokuapp.com/';
-    const page = 'https://volleyball.bayern/ergebnisse/erwachsene/oberpfalz?tx_bvv_ausgabe%5Baction%5D=zeigeliga&tx_bvv_ausgabe%5BbezirkMannschaftZuordnung%5D=1000&tx_bvv_ausgabe%5BbezirkZuordnung%5D=70&tx_bvv_ausgabe%5Bwettbewerbid%5D=20966&cHash=a1882fd7c1b6d122b76ecff4b3c178e4';
+    const corsProxy = 'https://api.allorigins.win/get?url=';
+    const page = 'https://volleyball.bayern/ergebnisse/erwachsene/oberpfalz?tx_bvv_ausgabe%5Baction%5D=zeigeliga&tx_bvv_ausgabe%5BbezirkMannschaftZuordnung%5D=1000&tx_bvv_ausgabe%5BbezirkZuordnung%5D=70&tx_bvv_ausgabe%5Bwettbewerbid%5D=23764&cHash=12c4aea79230fe6050f7893ff45396a7';
 
     const threshold = 3_600_000 // 1 Stunde
     const dateTime = sessionStorage.getItem('volleyball-1-request-datetime');
@@ -104,15 +103,16 @@
     }
 
     function fetchData() {
-        fetch(corsProxy.concat(page), {
+        fetch(`${corsProxy}${encodeURIComponent(page)}`, {
             mode: 'cors',
             headers: header
         })
-            .then(response => response.text())
+            .then(response => response.json())
             .then(response => {
-                sessionStorage.setItem('volleyball-1-request', response);
+                console.log(response);
+                sessionStorage.setItem('volleyball-1-request', response.contents);
                 sessionStorage.setItem('volleyball-1-request-datetime', new Date().getTime().toString())
-                return response;
+                return response.contents;
             })
             .then(response => renderResponse(response));
     }
@@ -169,7 +169,7 @@
 
     setTimeout(() => {
         const urlParams = new URLSearchParams(window.location.search);
-        const url = "https://andreaszaschka.github.io/tsv-pleystein-monitor/volleyball/volleyball-2.html";
+        const url = `https://andreaszaschka.github.io/tsv-pleystein-monitor/skaterhockey/skaterhockey.html`;
         window.location = `${url}?${urlParams.toString()}`
     }, 30_000);
 </script>
