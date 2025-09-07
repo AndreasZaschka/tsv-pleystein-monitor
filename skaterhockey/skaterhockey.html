@@ -89,10 +89,10 @@
     let header = new Headers();
 
     const corsProxy = 'https://api.allorigins.win/get?url=';
-    const page1 = 'http://www.briv-online.de/liga/392/spielplan/';
-    const page2 = 'http://www.briv-online.de/liga/392/tabelle/';
+    const page1 = 'https://www.briv-online.de/liga/421/spielplan/';
+    const page2 = 'https://www.briv-online.de/liga/421/tabelle/';
 
-    const threshold = 3_600_000 // 1 Stunde
+    const threshold = 0 // 1 Stunde
     const dateTime = sessionStorage.getItem('skaterhockey-1-request-datetime');
 
     if (dateTime === null) {
