@@ -124,6 +124,7 @@
             .then(response => response.json())
             .then(response => {
                 sessionStorage.setItem('skaterhockey-1-request-table', response.contents);
+                return response;
             })
             .then(response => renderTableResponse(response.contents));
     }
@@ -262,11 +263,11 @@
         tHead.appendChild(trHead);
     }
 
-    setTimeout(() => {
+    /*setTimeout(() => {
         const nextSponsorId = getSponsorId();
         const url = `https://andreaszaschka.github.io/tsv-pleystein-monitor/sponsoren/sponsor-${nextSponsorId}.html`;
         window.location = `${url}?sponsorId=${encodeURIComponent(nextSponsorId)}`
-    }, 30_000);
+    }, 30_000);*/
 </script>
 
 
