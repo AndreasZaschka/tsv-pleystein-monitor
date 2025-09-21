@@ -87,12 +87,11 @@
 
 <script>
     let header = new Headers();
-    header.append('Access-Control-Allow-Origin', '*');
 
-    const corsProxy = 'https://tsv-pleystein-cors-proxy.herokuapp.com/';
-    const page = 'https://volleyball.bayern/ergebnisse/erwachsene/oberpfalz?tx_bvv_ausgabe%5Baction%5D=zeigeliga&tx_bvv_ausgabe%5BbezirkMannschaftZuordnung%5D=1000&tx_bvv_ausgabe%5BbezirkZuordnung%5D=70&tx_bvv_ausgabe%5Bwettbewerbid%5D=20964&cHash=5a8df52941e64bace5acf3a3461e0c10';
+    const corsProxy = 'https://api.allorigins.win/get?url=';
+    const page = 'https://volleyball.bayern/ergebnisse/erwachsene/oberpfalz?tx_bvv_ausgabe%5Baction%5D=zeigeliga&tx_bvv_ausgabe%5BbezirkMannschaftZuordnung%5D=1000&tx_bvv_ausgabe%5BbezirkZuordnung%5D=70&tx_bvv_ausgabe%5Bwettbewerbid%5D=38743&cHash=9e8f3e26e165aa4628f75ec5f9b7718c';
 
-    const threshold = 3_600_000 // 1 Stunde
+    const threshold = 0 // 1 Stunde
     const dateTime = sessionStorage.getItem('volleyball-2-request-datetime');
 
     if (dateTime === null) {
@@ -104,15 +103,16 @@
     }
 
     function fetchData() {
-        fetch(corsProxy.concat(page), {
+        fetch(`${corsProxy}${encodeURIComponent(page)}`, {
             mode: 'cors',
             headers: header
         })
-            .then(response => response.text())
+            .then(response => response.json())
             .then(response => {
-                sessionStorage.setItem('volleyball-2-request', response);
+                console.log(response);
+                sessionStorage.setItem('volleyball-2-request', response.contents);
                 sessionStorage.setItem('volleyball-2-request-datetime', new Date().getTime().toString())
-                return response;
+                return response.contents;
             })
             .then(response => renderResponse(response));
     }
