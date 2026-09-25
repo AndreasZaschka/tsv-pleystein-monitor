@@ -124,8 +124,8 @@
         let titleDiv = page.getElementsByClassName('bvv_zeigeligabox');
         let title = titleDiv[0].children[0];
 
-        document.getElementById('volleyballSpieleLeague').innerHTML = title.innerHTML;
-        document.getElementById('volleyballTabelleLeague').innerHTML = title.innerHTML;
+        document.getElementById('volleyballSpieleLeague').textContent = textOf(title);
+        document.getElementById('volleyballTabelleLeague').textContent = textOf(title);
 
         this.buildVolleyballSpieleTable(page.getElementById('paarungenrunde0'));
         this.buildVolleyballTabelleTable(page.getElementById('tabellerunde0_0'));
@@ -145,8 +145,7 @@
 
     function buildVolleyballSpieleTable(div) {
 
-        let table = div.children[1].children[0];
-        table.classList.remove(...table.classList);
+        let table = sanitizeTable(div.children[1].children[0]);
         table.classList.add('table');
         table.classList.add('table-sm');
         table.classList.add('table-striped');
@@ -157,8 +156,7 @@
 
     function buildVolleyballTabelleTable(div) {
 
-        let table = div.children[1].children[0];
-        table.classList.remove(...table.classList);
+        let table = sanitizeTable(div.children[1].children[0]);
         table.classList.add('table');
         table.classList.add('table-sm');
         table.classList.add('table-striped');

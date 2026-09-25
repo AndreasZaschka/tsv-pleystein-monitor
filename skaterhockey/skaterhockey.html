@@ -47,7 +47,7 @@
     <div class="row">
         <div class="col col-md-6">
             <div class="row">
-                <img alt="Pleystein Piranhas Logo" class="col-auto" height="60px" src="http://www.briv-online.de/img/club/x/35.png">
+                <img alt="Pleystein Piranhas Logo" class="col-auto" height="60px" src="https://www.briv-online.de/img/club/x/35.png">
                 <div class="col row">
 
                     <div class="col-12">
@@ -65,7 +65,7 @@
         </div>
         <div class="col col-md-6">
             <div class="row">
-                <img alt="Pleystein Piranhas Logo" class="col-auto" height="60px" src="http://www.briv-online.de/img/club/x/35.png">
+                <img alt="Pleystein Piranhas Logo" class="col-auto" height="60px" src="https://www.briv-online.de/img/club/x/35.png">
                 <div class="col row">
 
                     <div class="col-12">
@@ -133,7 +133,7 @@
         let dom = new DOMParser();
         let page = dom.parseFromString(response, 'text/html');
 
-        const table = page.getElementsByClassName('tabelle')[0];
+        const table = sanitizeTable(page.getElementsByClassName('tabelle')[0]);
         table.classList.add('table');
         table.classList.add('table-sm');
         table.classList.add('table-striped');
@@ -144,10 +144,6 @@
         for (const tr of document.getElementsByTagName('tr')) {
             let isOwnRow = false;
             for (const rowItem of tr.getElementsByTagName('td')) {
-
-                if (rowItem.className.includes('teamname')) {
-                    rowItem.innerHTML = rowItem.outerText;
-                }
 
                 if (rowItem.innerText.includes('Pleystein')) {
                     isOwnRow = true;
@@ -166,8 +162,8 @@
         let titleDiv = page.getElementById('content');
         let title = titleDiv.getElementsByTagName('h1')[0];
 
-        document.getElementById('volleyballSpieleLeague').innerHTML = title.innerHTML;
-        document.getElementById('volleyballTabelleLeague').innerHTML = title.innerHTML;
+        document.getElementById('volleyballSpieleLeague').textContent = textOf(title);
+        document.getElementById('volleyballTabelleLeague').textContent = textOf(title);
 
         this.buildVolleyballSpieleTable(page.getElementsByClassName('spielplan')[0]);
 
@@ -208,10 +204,7 @@
             const divDate = tableElement.children[0].children[i + 1];
 
             const tdHeadDatum = document.createElement('td');
-            tdHeadDatum.innerText = divDate.getElementsByClassName('spieldaten')[0].innerHTML.replaceAll('&nbsp;', ' ');
-            const headDatum = tdHeadDatum.innerHTML.split('<br>').slice(1, 2).join();
-            tdHeadDatum.innerHTML = null;
-            tdHeadDatum.innerHTML = headDatum;
+            tdHeadDatum.textContent = textOf(divDate.getElementsByClassName('spieldaten')[0]);
             tr.appendChild(tdHeadDatum);
 
             const tdHeadNumber = document.createElement('td');
@@ -219,17 +212,15 @@
             tr.appendChild(tdHeadNumber);
 
             const tdHeadTeamA = document.createElement('td');
-            tdHeadTeamA.innerText = div.getElementsByClassName('teamname')[0].getElementsByTagName('a')[0].innerHTML;
+            tdHeadTeamA.textContent = textOf(div.getElementsByClassName('teamname')[0]);
             tr.appendChild(tdHeadTeamA);
 
             const tdHeadTeamB = document.createElement('td');
-            tdHeadTeamB.innerText = div.getElementsByClassName('teamname')[1].getElementsByTagName('a')[0].innerHTML;
+            tdHeadTeamB.textContent = textOf(div.getElementsByClassName('teamname')[1]);
             tr.appendChild(tdHeadTeamB);
 
             const tdHeadResult = document.createElement('td');
-            tdHeadResult.innerHTML = div.getElementsByClassName('result')[0]
-                .getElementsByTagName('a')[0]
-                .innerHTML;
+            tdHeadResult.textContent = textOf(div.getElementsByClassName('result')[0]);
             tr.appendChild(tdHeadResult);
 
             tBody.appendChild(tr);
