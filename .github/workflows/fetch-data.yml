@@ -1,0 +1,53 @@
+name: Ergebnisse laden
+
+on:
+  schedule:
+    - cron: '17 * * * *'
+  workflow_dispatch:
+  push:
+    paths:
+      - .github/workflows/fetch-data.yml
+      - scripts/fetch_data.py
+
+permissions:
+  contents: write
+  pages: write
+
+concurrency:
+  group: fetch-data
+  cancel-in-progress: false
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - run: pip install beautifulsoup4
+
+      - run: python scripts/fetch_data.py
+
+      - name: Commit, falls sich die Daten geändert haben
+        id: commit
+        run: |
+          git add data
+          if git diff --cached --quiet; then
+            echo "Keine Änderungen"
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'chore: Ergebnisse aktualisiert'
+          git pull --rebase
+          git push
+          echo "pushed=true" >> "$GITHUB_OUTPUT"
+
+      - name: GitHub-Pages-Build anstoßen
+        if: steps.commit.outputs.pushed == 'true' && github.ref_name == 'gh-pages'
+        run: gh api -X POST "repos/${{ github.repository }}/pages/builds"
+        env:
+          GH_TOKEN: ${{ github.token }}

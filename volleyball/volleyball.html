@@ -86,35 +86,10 @@
 <script src="../tsv_pleystein_monitor.js"></script>
 
 <script>
-    let header = new Headers();
-
-    const corsProxy = 'https://api.allorigins.win/get?url=';
-    const page = 'https://volleyball.bayern/ergebnisse/erwachsene/oberpfalz/wettbewerb-44657';
-
-    const threshold = 3_600_000 // 1 Stunde
-    const dateTime = sessionStorage.getItem('volleyball-44657-request-datetime');
-
-    if (dateTime === null) {
-        fetchData();
-    } else if ((parseInt(dateTime, 10) + threshold) > new Date().getTime()) {
-        renderResponse(sessionStorage.getItem('volleyball-44657-request'));
-    } else {
-        fetchData();
-    }
-
-    function fetchData() {
-        fetch(`${corsProxy}${encodeURIComponent(page)}`, {
-            mode: 'cors',
-            headers: header
-        })
-            .then(response => response.json())
-            .then(response => {
-                sessionStorage.setItem('volleyball-44657-request', response.contents);
-                sessionStorage.setItem('volleyball-44657-request-datetime', new Date().getTime().toString())
-                return response.contents;
-            })
-            .then(response => renderResponse(response));
-    }
+    // Daten werden per GitHub Action (scripts/fetch_data.py) stündlich nach data/ geladen
+    fetch('../data/volleyball.html', {cache: 'no-cache'})
+        .then(response => response.text())
+        .then(response => renderResponse(response));
 
     function renderResponse(response) {
         let dom = new DOMParser();

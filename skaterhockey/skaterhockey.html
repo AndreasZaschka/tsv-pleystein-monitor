@@ -86,48 +86,13 @@
 <script src="../tsv_pleystein_monitor.js"></script>
 
 <script>
-    let header = new Headers();
-
-    const corsProxy = 'https://api.allorigins.win/get?url=';
-    const page1 = 'https://www.briv-online.de/liga/421/spielplan/';
-    const page2 = 'https://www.briv-online.de/liga/421/tabelle/';
-
-    const threshold = 0 // 1 Stunde
-    const dateTime = sessionStorage.getItem('skaterhockey-1-request-datetime');
-
-    if (dateTime === null) {
-        fetchData();
-    } else if ((parseInt(dateTime, 10) + threshold) > new Date().getTime()) {
-        renderResponse(sessionStorage.getItem('skaterhockey-1-request'));
-        renderTableResponse(sessionStorage.getItem('skaterhockey-1-request-table'))
-    } else {
-        fetchData();
+    // Daten werden per GitHub Action (scripts/fetch_data.py) stündlich nach data/ geladen
+    function loadData(file) {
+        return fetch(`../data/${file}`, {cache: 'no-cache'}).then(response => response.text());
     }
 
-    function fetchData() {
-        fetch(`${corsProxy}${encodeURIComponent(page1)}`, {
-            mode: 'cors',
-            headers: header
-        })
-            .then(response => response.json())
-            .then(response => {
-                sessionStorage.setItem('skaterhockey-1-request', response.contents);
-                sessionStorage.setItem('skaterhockey-1-request-datetime', new Date().getTime().toString())
-                return response.contents;
-            })
-            .then(response => renderResponse(response));
-
-        fetch(`${corsProxy}${encodeURIComponent(page2)}`, {
-            mode: 'cors',
-            headers: header
-        })
-            .then(response => response.json())
-            .then(response => {
-                sessionStorage.setItem('skaterhockey-1-request-table', response.contents);
-                return response;
-            })
-            .then(response => renderTableResponse(response.contents));
-    }
+    loadData('skaterhockey-spielplan.html').then(response => renderResponse(response));
+    loadData('skaterhockey-tabelle.html').then(response => renderTableResponse(response));
 
     function renderTableResponse(response) {
         let dom = new DOMParser();
