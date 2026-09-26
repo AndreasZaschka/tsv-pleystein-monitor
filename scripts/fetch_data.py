@@ -54,8 +54,8 @@ def volleyball():
 
 
 def skaterhockey():
-    url_games = 'https://www.briv-online.de/liga/421/spielplan/'
-    url_table = 'https://www.briv-online.de/liga/421/tabelle/'
+    url_games = 'https://www.briv-online.de/liga/443/spielplan/'
+    url_table = 'https://www.briv-online.de/liga/443/tabelle/'
     games_page = fetch(url_games)
     table_page = fetch(url_table)
     title = clean(select(games_page, '#content h1', url_games))
