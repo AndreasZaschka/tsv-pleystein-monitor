@@ -89,15 +89,15 @@
     let header = new Headers();
 
     const corsProxy = 'https://api.allorigins.win/get?url=';
-    const page = 'https://volleyball.bayern/ergebnisse/erwachsene/oberpfalz?tx_bvv_ausgabe%5Baction%5D=zeigeliga&tx_bvv_ausgabe%5BbezirkMannschaftZuordnung%5D=1000&tx_bvv_ausgabe%5BbezirkZuordnung%5D=70&tx_bvv_ausgabe%5Bwettbewerbid%5D=38745&cHash=49c9d07d721574c0792825a7f4fec1b8';
+    const page = 'https://volleyball.bayern/ergebnisse/erwachsene/oberpfalz/wettbewerb-44657';
 
     const threshold = 3_600_000 // 1 Stunde
-    const dateTime = sessionStorage.getItem('volleyball-1-request-datetime');
+    const dateTime = sessionStorage.getItem('volleyball-44657-request-datetime');
 
     if (dateTime === null) {
         fetchData();
     } else if ((parseInt(dateTime, 10) + threshold) > new Date().getTime()) {
-        renderResponse(sessionStorage.getItem('volleyball-1-request'));
+        renderResponse(sessionStorage.getItem('volleyball-44657-request'));
     } else {
         fetchData();
     }
@@ -109,9 +109,8 @@
         })
             .then(response => response.json())
             .then(response => {
-                console.log(response);
-                sessionStorage.setItem('volleyball-1-request', response.contents);
-                sessionStorage.setItem('volleyball-1-request-datetime', new Date().getTime().toString())
+                sessionStorage.setItem('volleyball-44657-request', response.contents);
+                sessionStorage.setItem('volleyball-44657-request-datetime', new Date().getTime().toString())
                 return response.contents;
             })
             .then(response => renderResponse(response));
@@ -121,18 +120,17 @@
         let dom = new DOMParser();
         let page = dom.parseFromString(response, 'text/html');
 
-        let titleDiv = page.getElementsByClassName('bvv_zeigeligabox');
-        let title = titleDiv[0].children[0];
+        const title = page.querySelector('.bvv-portal-results-liga h2');
 
         document.getElementById('volleyballSpieleLeague').textContent = textOf(title);
         document.getElementById('volleyballTabelleLeague').textContent = textOf(title);
 
-        this.buildVolleyballSpieleTable(page.getElementById('paarungenrunde0'));
-        this.buildVolleyballTabelleTable(page.getElementById('tabellerunde0_0'));
+        this.buildVolleyballSpieleTable(page.querySelector('#paarungenrunde0 .d-md-block table'));
+        this.buildVolleyballTabelleTable(page.querySelector('#tabellenrunde0 table'));
 
         for (const tr of document.getElementsByTagName('tr')) {
             let isOwnRow = false;
-            for (const rowItem of tr.getElementsByTagName('td')) {
+            for (const rowItem of tr.cells) {
                 if (rowItem.innerText.includes('TSV Pleystein')) {
                     isOwnRow = true;
                 }
@@ -143,9 +141,22 @@
         }
     }
 
-    function buildVolleyballSpieleTable(div) {
+    function buildVolleyballSpieleTable(sourceTable) {
 
-        const table = sanitizeTable(div.children[1].children[0]);
+        // nur die Spiele des TSV Pleystein anzeigen
+        for (const row of sourceTable.tBodies[0].querySelectorAll('tr')) {
+            if (!row.textContent.includes('TSV Pleystein')) {
+                row.remove();
+            }
+        }
+
+        const table = sanitizeTable(sourceTable);
+
+        // letzte Spalte enthält nur den Details-Button
+        for (const row of table.rows) {
+            row.deleteCell(-1);
+        }
+
         table.classList.add('table');
         table.classList.add('table-sm');
         table.classList.add('table-striped');
@@ -154,9 +165,9 @@
         document.getElementById('volleyballSpiele').appendChild(table);
     }
 
-    function buildVolleyballTabelleTable(div) {
+    function buildVolleyballTabelleTable(sourceTable) {
 
-        const table = sanitizeTable(div.children[1].children[0]);
+        const table = sanitizeTable(sourceTable);
         table.classList.add('table');
         table.classList.add('table-sm');
         table.classList.add('table-striped');
@@ -166,9 +177,9 @@
     }
 
     setTimeout(() => {
-        const urlParams = new URLSearchParams(window.location.search);
-        const url = `https://andreaszaschka.github.io/tsv-pleystein-monitor/volleyball/volleyball-2.html`;
-        window.location = `${url}?${urlParams.toString()}`
+        const nextSponsorId = getSponsorId();
+        const url = `https://andreaszaschka.github.io/tsv-pleystein-monitor/skaterhockey/skaterhockey.html`;
+        window.location = `${url}?sponsorId=${encodeURIComponent(nextSponsorId)}`
     }, 30_000);
 </script>
 
