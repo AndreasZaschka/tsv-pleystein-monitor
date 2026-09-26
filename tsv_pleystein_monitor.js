@@ -12,7 +12,7 @@ function getNextSponsorParam(currentSponsorId) {
 
     var _currentSponsorId = parseInt(currentSponsorId);
 
-    if (_currentSponsorId >= 8) {
+    if (isNaN(_currentSponsorId) || _currentSponsorId < 1 || _currentSponsorId >= 8) {
         return '1';
     } else {
         return (_currentSponsorId + 1).toString();
@@ -52,4 +52,31 @@ function showAllLeagues() {
     }
 
     return false;
+}
+
+// Fremdes HTML (CORS-Proxy / Verbandsseiten) ist nicht vertrauenswürdig: nur Text übernehmen.
+function textOf(node) {
+    return node ? node.textContent.replace(/\s+/g, ' ').trim() : '';
+}
+
+// Baut eine fremde Tabelle nur aus Struktur + Text neu auf (keine Attribute, Links, Bilder, Handler).
+function sanitizeTable(sourceTable) {
+    const table = document.createElement('table');
+    const tHead = table.createTHead();
+    const tBody = table.createTBody();
+
+    for (const sourceRow of sourceTable.rows) {
+        const section = sourceRow.parentElement.tagName === 'THEAD' ? tHead : tBody;
+        const tr = section.insertRow();
+
+        for (const sourceCell of sourceRow.cells) {
+            const cell = document.createElement(sourceCell.tagName === 'TH' ? 'th' : 'td');
+            cell.textContent = textOf(sourceCell);
+            if (sourceCell.colSpan > 1) cell.colSpan = sourceCell.colSpan;
+            if (sourceCell.rowSpan > 1) cell.rowSpan = sourceCell.rowSpan;
+            tr.appendChild(cell);
+        }
+    }
+
+    return table;
 }
